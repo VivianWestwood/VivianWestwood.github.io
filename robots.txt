@@ -1,0 +1,2 @@
+User-agent: *
+Sitemap: https://blog.5772447.xyz/sitemap.xml

@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"5772447.xyz","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.8.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":2,"unescape":false,"preload":true}}</script><script src="/js/config.js"></script>
+<meta name="description" content="前言 写在发布之前：其实最后还是发现有一点问题，但是需要亿点时间来解决…就是自动续期控制面版网页的显示问题，如果之前没有添加过是没有问题的，如果已经添加过一个就会导致显示不全无法继续添加（只用手机的话）…解决方法就是在浏览器无障碍里把网页字号调到最小。然而Chrome和Edge浏览器调节了字号都不管用，只有火狐可以。解决这个问题就得把浏览器调换一下，所有相关的的截图也都要重新截…目前实在没精力重">
+<meta property="og:type" content="article">
+<meta property="og:title" content="白嫖微软E5开发者账号">
+<meta property="og:url" content="https://5772447.xyz/posts/25466/index.html">
+<meta property="og:site_name" content="Maskbugzero&#39;s Blog">
+<meta property="og:description" content="前言 写在发布之前：其实最后还是发现有一点问题，但是需要亿点时间来解决…就是自动续期控制面版网页的显示问题，如果之前没有添加过是没有问题的，如果已经添加过一个就会导致显示不全无法继续添加（只用手机的话）…解决方法就是在浏览器无障碍里把网页字号调到最小。然而Chrome和Edge浏览器调节了字号都不管用，只有火狐可以。解决这个问题就得把浏览器调换一下，所有相关的的截图也都要重新截…目前实在没精力重">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fypUSS.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fypLlD.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fypzTI.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fy9AXQ.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fy9Vmj.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fy93X4.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fy9BcD.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fy9yBd.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fy9f9f.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fy9XCV.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fy9L40.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fyCSu4.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fyCiU1.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fyCZvD.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fyCmKe.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fyCubd.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fyCQUI.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fyCNrQ.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fyC2qJ.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fyCIG6.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fyCHMD.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fyCqqH.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fyPSRf.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fyPnzT.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fyP1eJ.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fyPUSK.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fyPBeH.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fyPx0J.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fyiF1K.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/image-20210814124603473.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/image-20210814124631255.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/image-20210814124656874.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/image-20210814124706278.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/image-20210814124714810.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/image-20210814124725243.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/image-20210814124738645.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/clip_image002.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/image-20210814124758494.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/image-20210814124803180.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/image-20210814124905518.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/image-20210814124915481.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/image-20210814124918958.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/image-20210814124951252.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/image-20210814125001382.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/image-20210814125011400.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/image-20210814125015067.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/image-20210814125024871.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/image-20210814125034225.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/image-20210814125042418.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/image-20210814125054827.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/image-20210814125130631.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/image-20210814125140655.png">
+<meta property="article:published_time" content="2021-01-12T01:30:21.000Z">
+<meta property="article:modified_time" content="2021-01-13T01:30:21.000Z">
+<meta property="article:author" content="Maskbugzero">
+<meta property="article:tag" content="Microsoft">
+<meta property="article:tag" content="E5">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fypUSS.jpg">
+
+
+<link rel="canonical" href="https://5772447.xyz/posts/25466/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://5772447.xyz/posts/25466/","path":"posts/25466/","title":"白嫖微软E5开发者账号"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>白嫖微软E5开发者账号 | Maskbugzero's Blog</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Maskbugzero's Blog</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Life Oriented Programming</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="nav-number">2.</span> <span class="nav-text">准备工作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E9%9C%80%E8%A6%81%E7%9A%84app"><span class="nav-number">2.1.</span> <span class="nav-text">安装需要的APP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E5%86%8C%E5%BE%AE%E8%BD%AF%E4%B8%AA%E4%BA%BA%E8%B4%A6%E6%88%B7"><span class="nav-number">2.2.</span> <span class="nav-text">注册微软个人账户</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E5%86%8Cgithub%E8%B4%A6%E6%88%B7"><span class="nav-number">2.3.</span> <span class="nav-text">注册Github账户</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%B3%E8%AF%B7%E4%B8%80%E4%B8%AAe5%E8%B4%A6%E5%8F%B7"><span class="nav-number">3.</span> <span class="nav-text">申请一个E5账号</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AEe5%E8%B4%A6%E5%8F%B7%E8%87%AA%E5%8A%A8%E7%BB%AD%E8%AE%A2"><span class="nav-number">4.</span> <span class="nav-text">设置E5账号自动续订</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%80%E9%80%9A%E4%B8%80%E4%B8%AA%E5%AD%90%E8%B4%A6%E5%8F%B7"><span class="nav-number">4.1.</span> <span class="nav-text">开通一个子账号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E5%86%8C%E8%87%AA%E5%B7%B1%E7%9A%84api-key"><span class="nav-number">4.2.</span> <span class="nav-text">注册自己的API Key</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0key%E5%88%B0%E8%87%AA%E5%8A%A8%E7%BB%AD%E6%9C%9F%E7%A8%8B%E5%BA%8F"><span class="nav-number">4.3.</span> <span class="nav-text">添加key到自动续期程序</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#onedrive%E7%A9%BA%E9%97%B4%E6%89%A9%E5%AE%B9"><span class="nav-number">5.</span> <span class="nav-text">OneDrive空间扩容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%B4%E6%98%8E"><span class="nav-number">6.</span> <span class="nav-text">说明</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Maskbugzero"
+      src="/images/touxiang.jpg">
+  <p class="site-author-name" itemprop="name">Maskbugzero</p>
+  <div class="site-description" itemprop="description">网络随笔，主要发布Synology、Docker、OpenWrt、Nas、STM32等技术类文章。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">39</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Maskbugzero" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Maskbugzero" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:eeruyi736678@gmail.com" title="E-Mail → mailto:eeruyi736678@gmail.com" rel="noopener external nofollow noreferrer" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Maskbugzero" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Maskbugzero" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://instagram.com/Maskbugzero" title="Instagram → https:&#x2F;&#x2F;instagram.com&#x2F;Maskbugzero" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-instagram fa-fw"></i>Instagram</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://t.me/Maskbugzero" title="Telegram → https:&#x2F;&#x2F;t.me&#x2F;Maskbugzero" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-telegram fa-fw"></i>Telegram</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://5772447.xyz/posts/25466/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/touxiang.jpg">
+      <meta itemprop="name" content="Maskbugzero">
+      <meta itemprop="description" content="网络随笔，主要发布Synology、Docker、OpenWrt、Nas、STM32等技术类文章。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Maskbugzero's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          白嫖微软E5开发者账号
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-01-12 09:30:21" itemprop="dateCreated datePublished" datetime="2021-01-12T09:30:21+08:00">2021-01-12</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-01-13 09:30:21" itemprop="dateModified" datetime="2021-01-13T09:30:21+08:00">2021-01-13</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Microsoft/" itemprop="url" rel="index"><span itemprop="name">Microsoft</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Microsoft/E5/" itemprop="url" rel="index"><span itemprop="name">E5</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.7k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>2 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="前言">前言</h2>
+<p>写在发布之前：其实最后还是发现有一点问题，但是需要亿点时间来解决…就是自动续期控制面版网页的显示问题，如果之前没有添加过是没有问题的，如果已经添加过一个就会导致显示不全无法继续添加（只用手机的话）…解决方法就是在浏览器无障碍里把网页字号调到最小。然而Chrome和Edge浏览器调节了字号都不管用，只有火狐可以。解决这个问题就得把浏览器调换一下，所有相关的的截图也都要重新截…目前实在没精力重做了…总之问题也不是很大，新手的话按着教程走就可以了。如果有遇到这个问题，清空火狐的数据在火狐上操作就行了。</p>
+<span id="more"></span>
+<p>教程由 酷安@某贼 整理，最后编辑于2021.1.22</p>
+<p>整个过程可只需要手机即可完成，也可在PC上完成。</p>
+<p>参考了以下文章：</p>
+<p><a target="_blank" rel="noopener external nofollow noreferrer" href="https://www.coolapk.com/feed/18270055?shareKey=MWJkMDYxOGEyZjU5NWVjZTM3NzM~&amp;shareUid=1928697&amp;shareFrom=com.coolapk.market_10.2.1">链接</a> 作者：酷安@Dannyyyyyyyyzjm</p>
+<p><a target="_blank" rel="noopener external nofollow noreferrer" href="https://blog.curlc.com/archives/687.html">链接</a>作者：浅忆</p>
+<h2 id="准备工作">准备工作</h2>
+<h3 id="安装需要的app">安装需要的APP</h3>
+<h3 id="注册微软个人账户">注册微软个人账户</h3>
+<p>用火狐浏览器注册一个微软个人账户（已有的略）并登陆</p>
+<p>打开<a target="_blank" rel="noopener external nofollow noreferrer" href="https://account.microsoft.com/account?lang=zh-cn">链接</a>，点击创建Microsoft账户</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fypUSS.jpg" alt="创建Microsoft账户" /><figcaption aria-hidden="true">创建Microsoft账户</figcaption>
+</figure>
+<p>按提示创建，邮箱用QQ邮箱或其他即可。</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fypLlD.jpg" alt="添加姓名" /><figcaption aria-hidden="true">添加姓名</figcaption>
+</figure>
+<p>创建完成，点击添加姓名（必须添加，不然影响后面注册）</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fypzTI.jpg" alt="添加名字" /><figcaption aria-hidden="true">添加名字</figcaption>
+</figure>
+<h3 id="注册github账户">注册Github账户</h3>
+<p>用Edge浏览器注册一个Github账户（已有的略）并登陆</p>
+<p>打开<a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/join?ref_cta=Sign+up&amp;ref_loc=header+logged+out&amp;ref_page=%2F&amp;source=header-home">链接</a></p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fy9AXQ.jpg" alt="注册Github" /><figcaption aria-hidden="true">注册Github</figcaption>
+</figure>
+<p>邮箱用QQ邮箱或其他即可。</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fy9Vmj.jpg" alt="验证邮箱" /><figcaption aria-hidden="true">验证邮箱</figcaption>
+</figure>
+<p>查看邮箱有没有验证邮件，点击验证账户。</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fy93X4.jpg" alt="登录Github" /><figcaption aria-hidden="true">登录Github</figcaption>
+</figure>
+<p>登陆一次即可。</p>
+<h2 id="申请一个e5账号">申请一个E5账号</h2>
+<p>用火狐浏览器（特殊联网状态）打开链接（加载极慢请耐心等待，实在不行换网）：</p>
+<p>打开<a target="_blank" rel="noopener external nofollow noreferrer" href="https://developer.microsoft.com/zh-cn/office/dev-program">链接</a></p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fy9BcD.jpg" alt="立即加入" /><figcaption aria-hidden="true">立即加入</figcaption>
+</figure>
+<p>点击立即加入。进入登陆页面，用你的微软个人账户登录。</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fy9yBd.jpg" alt="填写问题" /><figcaption aria-hidden="true">填写问题</figcaption>
+</figure>
+<p>然后按图填写</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fy9f9f.jpg" alt="下一步" /><figcaption aria-hidden="true">下一步</figcaption>
+</figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fy9XCV.jpg" alt="保存设置" /><figcaption aria-hidden="true">保存设置</figcaption>
+</figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fy9L40.jpg" alt="设置E5订阅" /><figcaption aria-hidden="true">设置E5订阅</figcaption>
+</figure>
+<p>往下翻</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fyCSu4.jpg" alt="选择偏好设置" /><figcaption aria-hidden="true">选择偏好设置</figcaption>
+</figure>
+<p>展开产品，技术，语言三项，把所有的钩都勾上</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fyCiU1.jpg" alt="打勾" /><figcaption aria-hidden="true">打勾</figcaption>
+</figure>
+<p>点击下方保存，应用。稍后会显示已保存。</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fyCZvD.jpg" alt="保存设置" /><figcaption aria-hidden="true">保存设置</figcaption>
+</figure>
+<p>往上翻回到顶部，点击设置E5订阅。</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fyCmKe.jpg" alt="设置E5订阅" /><figcaption aria-hidden="true">设置E5订阅</figcaption>
+</figure>
+<p>密码就是今后这个E5账号的密码。用户名和域这里解释一下，E5账户的账号（同时也是一个邮箱地址）格式为<a href="mailto:用户名@域.onmicrosoft.com" rel="external nofollow noreferrer">用户名@域.onmicrosoft.com</a>，所以你填写的用户名和域决定了你的账号（的一部分）。用户名随便写，但是域不能和其他人重复。填写域之后网站会检查是否重复，如果重复会红字提示你。</p>
+<p>填写完毕点击继续。</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fyCubd.jpg" alt="添加电话号码" /><figcaption aria-hidden="true">添加电话号码</figcaption>
+</figure>
+<p>如果你的国家填写的不是中国，则需要将第一项修改为China(+86)。不需要开下拉条选择（下拉条划不动），直接点击文字修改为china即可。手机号一定要填写自己的，因为今后修改密码，验证身份等操作都需要这个手机号接收验证码。输入手机号点击发送代码，下面会多出一个填写验证码的输入框。按照原作者的说法，这里如果不特殊上网，则大概率收不到验证码。</p>
+<p>验证完手机后，你的个人账户会收到一个微软发来的欢迎邮件，不用管他。至此你已拥有90天试用期的E5账号了。</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fyCQUI.jpg" alt="设置完成" /><figcaption aria-hidden="true">设置完成</figcaption>
+</figure>
+<h2 id="设置e5账号自动续订">设置E5账号自动续订</h2>
+<h3 id="开通一个子账号">开通一个子账号</h3>
+<p>用Chrome浏览器打开<a target="_blank" rel="noopener external nofollow noreferrer" href="https://admin.microsoft.com/Adminportal/Home#/users">链接</a></p>
+<p>打开极慢请耐心等待。用你刚申请的E5账号登录。</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fyCNrQ.jpg" alt="添加子账号" /><figcaption aria-hidden="true">添加子账号</figcaption>
+</figure>
+<p>点击添加用户（单一用户）。如果页面过度放大且无法捏合缩放，可以双击页面空白处缩小。如果不行就再双击一次，直到恢复正常。</p>
+<p>然后填写相关选项。</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fyC2qJ.jpg" alt="添加用户信息" /><figcaption aria-hidden="true">添加用户信息</figcaption>
+</figure>
+<p>姓名用户名随便写，密码选择让我来创建密码，密码要记住。下面两个都不勾选。然后点击最底部的下一步。（如果看不到说明页面还没有缩到最小）</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fyCIG6.jpg" alt="分配许可证" /><figcaption aria-hidden="true">分配许可证</figcaption>
+</figure>
+<p>默认即可，下一步。</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fyCHMD.jpg" alt="可选设置" /><figcaption aria-hidden="true">可选设置</figcaption>
+</figure>
+<p>不用填写，直接下一步。</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fyCqqH.jpg" alt="完成" /><figcaption aria-hidden="true">完成</figcaption>
+</figure>
+<p>点击添加完毕。</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fyPSRf.jpg" alt="子账号信息" /><figcaption aria-hidden="true">子账号信息</figcaption>
+</figure>
+<p>复制用户名（xxx@xxx.onmicrosoft.com）和密码记好备用。</p>
+<h3 id="注册自己的api-key">注册自己的API Key</h3>
+<p>继续用Chrome浏览器打开<a target="_blank" rel="noopener external nofollow noreferrer" href="https://portal.azure.com/#home">链接</a>，用E5账号（默认）登录进入azure（打开极慢请耐心等待）。</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fyPnzT.jpg" alt="出错信息" /><figcaption aria-hidden="true">出错信息</figcaption>
+</figure>
+<p>如果打开遇到这样的情况，点击Try again不断尝试直到进入为止。</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fyP1eJ.jpg" alt="Azure" /><figcaption aria-hidden="true">Azure</figcaption>
+</figure>
+<p>然后展开浏览器菜单，点击勾选桌面版网站。</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fyPUSK.jpg" alt="桌面版网站" /><figcaption aria-hidden="true">桌面版网站</figcaption>
+</figure>
+<p>等待重新进入。</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fyPBeH.jpg" alt="应用注册" /><figcaption aria-hidden="true">应用注册</figcaption>
+</figure>
+<p>点击上方搜索框，输入“应用注册”。反应可能比较慢，耐心等待，不行就多试几次。</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fyPx0J.jpg" alt="应用注册" /><figcaption aria-hidden="true">应用注册</figcaption>
+</figure>
+<p>点击应用注册。</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/fyiF1K.jpg" alt="注册" /><figcaption aria-hidden="true">注册</figcaption>
+</figure>
+<p>点击左上方新注册。</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/image-20210814124603473.png" alt="新注册" /><figcaption aria-hidden="true">新注册</figcaption>
+</figure>
+<p>仔细看图，如上图填写。名称随意，受支持的账户类型必须选第三项（任何组织目录中的帐户和个人Microsoft帐户），链接必须写</p>
+<p><code>https://e5.qyi.io/outlook/auth2/receive</code></p>
+<p>填写完毕，点击最下方注册。耐心等待，直到出现下图页面即为注册成功。</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/image-20210814124631255.png" alt="完成图" /><figcaption aria-hidden="true">完成图</figcaption>
+</figure>
+<p>复制应用程序(客户端)ID备用。</p>
+<p>然后点击左侧证书和密码</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/image-20210814124656874.png" alt="复制" /><figcaption aria-hidden="true">复制</figcaption>
+</figure>
+<p>点击新客户端密码</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/image-20210814124706278.png" alt="新客户端密码" /><figcaption aria-hidden="true">新客户端密码</figcaption>
+</figure>
+<p>在弹出的窗口中将截止期限改为从不</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/image-20210814124714810.png" alt="永不" /><figcaption aria-hidden="true">永不</figcaption>
+</figure>
+<p>点击添加。耐心等待添加完毕。</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/image-20210814124725243.png" alt="完成" /><figcaption aria-hidden="true">完成</figcaption>
+</figure>
+<p>复制“值”一项备用。点击右侧复制小按钮即可复制。</p>
+<p>然后点击左侧API权限。</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/image-20210814124738645.png" alt="API" /><figcaption aria-hidden="true">API</figcaption>
+</figure>
+<p>点击添加权限</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/clip_image002.jpg" alt="权限" /><figcaption aria-hidden="true">权限</figcaption>
+</figure>
+<p>点击Microsoft Graph</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/image-20210814124758494.png" alt="Graph" /><figcaption aria-hidden="true">Graph</figcaption>
+</figure>
+<p>应用程序权限</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/image-20210814124803180.png" alt="权限" /><figcaption aria-hidden="true">权限</figcaption>
+</figure>
+<p>搜索mail，展开Mail项，勾选前四个，点击最下方添加权限。</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/image-20210814124905518.png" alt="添加权限" /><figcaption aria-hidden="true">添加权限</figcaption>
+</figure>
+<p>等待添加完毕，然后点击“代表管理员同意”。</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/image-20210814124915481.png" alt="同意" /><figcaption aria-hidden="true">同意</figcaption>
+</figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/image-20210814124918958.png" alt="添加同意" /><figcaption aria-hidden="true">添加同意</figcaption>
+</figure>
+<h3 id="添加key到自动续期程序">添加key到自动续期程序</h3>
+<p>用Edge浏览器打开<a target="_blank" rel="noopener external nofollow noreferrer" href="https://e5.qyi.io/login">链接</a></p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/image-20210814124951252.png" alt="续期" /><figcaption aria-hidden="true">续期</figcaption>
+</figure>
+<p>加载完毕之后点这个猫，同意授权。</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/image-20210814125001382.png" alt="授权" /><figcaption aria-hidden="true">授权</figcaption>
+</figure>
+<p>登陆成功点击个人设置，并点击下方中部浏览器菜单，选择桌面版网站。</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/image-20210814125011400.png" alt="桌面版" /><figcaption aria-hidden="true">桌面版</figcaption>
+</figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/image-20210814125015067.png" alt="完成" /><figcaption aria-hidden="true">完成</figcaption>
+</figure>
+<p>点击新建，命名随意。</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/image-20210814125024871.png" alt="命名" /><figcaption aria-hidden="true">命名</figcaption>
+</figure>
+<p>新建完成之后点击配置。如果页面排布出问题可以重新切换一下电脑版网站。</p>
+<p>在弹出的窗口中输入刚才获取的应用程序(客户端)ID（client_id）、客户端密码（client_secret），下一步。</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/image-20210814125034225.png" alt="填写信息" /><figcaption aria-hidden="true">填写信息</figcaption>
+</figure>
+<p>默认即可，下一步。</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/image-20210814125042418.png" alt="下一步" /><figcaption aria-hidden="true">下一步</figcaption>
+</figure>
+<p>点击“去授权”，用之前添加的子帐号登陆，同意授权。</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/image-20210814125054827.png" alt="授权" /><figcaption aria-hidden="true">授权</figcaption>
+</figure>
+<h2 id="onedrive空间扩容">OneDrive空间扩容</h2>
+<p>OneDrive默认空间是1TB，最高可以扩容到5TB。用Chrome浏览器打开<a target="_blank" rel="noopener external nofollow noreferrer" href="https://admin.onedrive.com/#v=StorageSettings">链接</a>，然后再输入相同的链接再打开一次，直到出现下图页面：</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/image-20210814125130631.png" alt="扩容" /><figcaption aria-hidden="true">扩容</figcaption>
+</figure>
+<p>在浏览器菜单勾选桌面版网站，等待加载完成。</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/image-20210814125140655.png" alt="填写大小" /><figcaption aria-hidden="true">填写大小</figcaption>
+</figure>
+<p>将空间手动更改为5120（5TB），点击保存。</p>
+<h2 id="说明">说明</h2>
+<ul>
+<li>需要三个浏览器，是因为总共有三个微软账号要登录（个人，E5，子账号），而退登（注销）微软账号又很麻烦，所以为了节省时间，每个账号用一个浏览器，就不用反复登录和退登了。</li>
+<li>如果需要再嫖一个，把用到的三个浏览器数据清空即可重新再来。</li>
+<li>建议多撸几个账号，并使用 https://app.mover.io/ 及时互相备份以防翻车。备份是离线的，点击开始之后关闭浏览器即可，一般来说最多两三天也就备份完成了。</li>
+<li>微软主页：https://www.office.com/?auth=2</li>
+<li>微软管理员管理中心：https://admin.microsoft.com/Adminportal/Home#/homepage</li>
+<li>Azure：https://portal.azure.com/#home</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+      
+
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Microsoft/" rel="tag"># Microsoft</a>
+              <a href="/tags/E5/" rel="tag"># E5</a>
+          </div>
+
+        
+
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Maskbugzero</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">134k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">2:02</span>
+  </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener external nofollow noreferrer" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener external nofollow noreferrer" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.5.0/pjax.min.js" integrity="sha256-3NkoLDrmHLTYj7csHIZSr0MHAFTXth7Ua/DDt4MRUAg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/quicklink@2.2.0/dist/quicklink.umd.js" integrity="sha256-4kQf9z5ntdQrzsBC3YSHnEz02Z9C1UeW/E9OgnvlzSY=" crossorigin="anonymous"></script>
+  <script class="next-config" data-name="quicklink" type="application/json">{"enable":true,"home":false,"archive":false,"delay":true,"timeout":3000,"priority":true,"url":"https://5772447.xyz/posts/25466/"}</script>
+  <script src="/js/third-party/quicklink.js"></script>
+
+</body>
+</html>

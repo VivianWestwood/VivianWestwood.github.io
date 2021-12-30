@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"5772447.xyz","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.8.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":2,"unescape":false,"preload":true}}</script><script src="/js/config.js"></script>
+<meta name="description" content="项目地址 AdguardTeam&#x2F;AdGuardHome 免费和开源、强大的全网广告和跟踪器阻止 DNS 服务器。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker安装Adguardhome">
+<meta property="og:url" content="https://5772447.xyz/posts/3677/index.html">
+<meta property="og:site_name" content="Maskbugzero&#39;s Blog">
+<meta property="og:description" content="项目地址 AdguardTeam&#x2F;AdGuardHome 免费和开源、强大的全网广告和跟踪器阻止 DNS 服务器。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/f8QjTf.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/f8QX0P.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/f8QOmt.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/f8QqOI.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/f8Qb6A.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/f8Qxk8.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/f8QztS.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/f8lkmq.jpg">
+<meta property="article:published_time" content="2021-08-06T08:05:21.000Z">
+<meta property="article:modified_time" content="2021-10-15T12:00:14.000Z">
+<meta property="article:author" content="Maskbugzero">
+<meta property="article:tag" content="Docker">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/f8QjTf.jpg">
+
+
+<link rel="canonical" href="https://5772447.xyz/posts/3677/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://5772447.xyz/posts/3677/","path":"posts/3677/","title":"Docker安装Adguardhome"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Docker安装Adguardhome | Maskbugzero's Blog</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Maskbugzero's Blog</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Life Oriented Programming</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E5%9C%B0%E5%9D%80"><span class="nav-number">1.</span> <span class="nav-text">项目地址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#adguardhome%E9%83%A8%E7%BD%B2"><span class="nav-number">2.</span> <span class="nav-text">Adguardhome部署</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8B%89%E5%8F%96-docker-%E9%95%9C%E5%83%8F"><span class="nav-number">2.1.</span> <span class="nav-text">拉取 Docker 镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%B9%B6%E8%BF%90%E8%A1%8C%E5%AE%B9%E5%99%A8"><span class="nav-number">2.2.</span> <span class="nav-text">创建并运行容器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E4%B8%80"><span class="nav-number">2.2.1.</span> <span class="nav-text">方法一</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E4%BA%8C"><span class="nav-number">2.2.2.</span> <span class="nav-text">方法二</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E4%B8%89"><span class="nav-number">2.2.3.</span> <span class="nav-text">方法三</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%A7%E5%88%B6%E5%AE%B9%E5%99%A8"><span class="nav-number">2.3.</span> <span class="nav-text">控制容器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#adguardhome%E8%A7%84%E5%88%99"><span class="nav-number">3.</span> <span class="nav-text">Adguardhome规则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#adguardhome%E9%85%8D%E7%BD%AE"><span class="nav-number">4.</span> <span class="nav-text">Adguardhome配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%80%E5%A7%8B%E9%85%8D%E7%BD%AE"><span class="nav-number">4.1.</span> <span class="nav-text">开始配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%A1%E7%90%86%E7%AB%AF%E5%8F%A3"><span class="nav-number">4.2.</span> <span class="nav-text">管理端口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86%E5%91%98%E8%B4%A6%E5%8F%B7"><span class="nav-number">4.3.</span> <span class="nav-text">配置管理员账号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%AE%9E%E8%AE%BE%E7%BD%AE"><span class="nav-number">4.4.</span> <span class="nav-text">核实设置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%93%E5%BC%80%E4%BB%AA%E8%A1%A8%E7%9B%98"><span class="nav-number">4.5.</span> <span class="nav-text">打开仪表盘</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%99%BB%E5%BD%95%E9%A1%B5%E9%9D%A2"><span class="nav-number">4.6.</span> <span class="nav-text">登录页面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%89%E6%8B%A9%E8%BF%87%E6%BB%A4%E5%99%A8"><span class="nav-number">4.7.</span> <span class="nav-text">选择过滤器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%89%E6%8B%A9dns%E5%B0%81%E9%94%81%E6%B8%85%E5%8D%95"><span class="nav-number">4.8.</span> <span class="nav-text">选择DNS封锁清单</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E8%AE%BE%E5%A4%87dns%E5%9C%B0%E5%9D%80"><span class="nav-number">4.9.</span> <span class="nav-text">配置设备DNS地址</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Maskbugzero"
+      src="/images/touxiang.jpg">
+  <p class="site-author-name" itemprop="name">Maskbugzero</p>
+  <div class="site-description" itemprop="description">网络随笔，主要发布Synology、Docker、OpenWrt、Nas、STM32等技术类文章。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">39</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Maskbugzero" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Maskbugzero" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:eeruyi736678@gmail.com" title="E-Mail → mailto:eeruyi736678@gmail.com" rel="noopener external nofollow noreferrer" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Maskbugzero" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Maskbugzero" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://instagram.com/Maskbugzero" title="Instagram → https:&#x2F;&#x2F;instagram.com&#x2F;Maskbugzero" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-instagram fa-fw"></i>Instagram</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://t.me/Maskbugzero" title="Telegram → https:&#x2F;&#x2F;t.me&#x2F;Maskbugzero" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-telegram fa-fw"></i>Telegram</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://5772447.xyz/posts/3677/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/touxiang.jpg">
+      <meta itemprop="name" content="Maskbugzero">
+      <meta itemprop="description" content="网络随笔，主要发布Synology、Docker、OpenWrt、Nas、STM32等技术类文章。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Maskbugzero's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Docker安装Adguardhome
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-08-06 16:05:21" itemprop="dateCreated datePublished" datetime="2021-08-06T16:05:21+08:00">2021-08-06</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-10-15 20:00:14" itemprop="dateModified" datetime="2021-10-15T20:00:14+08:00">2021-10-15</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Docker/" itemprop="url" rel="index"><span itemprop="name">Docker</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>4k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>4 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="项目地址">项目地址</h2>
+<p><a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/AdguardTeam/AdGuardHome">AdguardTeam/AdGuardHome</a></p>
+<p>免费和开源、强大的全网广告和跟踪器阻止 DNS 服务器。</p>
+<span id="more"></span>
+<h2 id="adguardhome部署">Adguardhome部署</h2>
+<h3 id="拉取-docker-镜像">拉取 Docker 镜像</h3>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull adguard/adguardhome</span><br></pre></td></tr></table></figure>
+<h3 id="创建并运行容器">创建并运行容器</h3>
+<h4 id="方法一">方法一</h4>
+<p>网络为bridge创建一个新容器并运行 AdGuard Home：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">docker run -itd \</span><br><span class="line">    --name adguardhome\</span><br><span class="line">    --restart=always \</span><br><span class="line">    -v /my/own/workdir:/opt/adguardhome/work\</span><br><span class="line">    -v /my/own/confdir:/opt/adguardhome/conf\</span><br><span class="line">    -p 53:53/tcp -p 53:53/udp\</span><br><span class="line">    -p 67:67/udp -p 68:68/udp\</span><br><span class="line">    -p 80:80/tcp -p 443:443/tcp -p 443:443/udp -p 3000:3000/tcp\</span><br><span class="line">    -p 853:853/tcp\</span><br><span class="line">    -p 784:784/udp -p 853:853/udp -p 8853:8853/udp\</span><br><span class="line">    -p 5443:5443/tcp -p 5443:5443/udp\</span><br><span class="line">    -d adguard/adguardhome</span><br></pre></td></tr></table></figure>
+<p>现在您可以打开浏览器并导航到http://127.0.0.1:3000/来控制您的 AdGuard Home 服务。</p>
+<p>不要忘记使用您自己的<strong>数据</strong>和<strong>配置</strong>目录！</p>
+<p>您可能需要的端口映射：</p>
+<ul>
+<li><code>-p 53:53/tcp -p 53:53/udp</code>: 纯DNS。</li>
+<li><code>-p 67:67/udp -p 68:68/tcp -p 68:68/udp</code>: 如果您打算使用 AdGuard Home 作为 DHCP 服务器，请添加。</li>
+<li><code>-p 80:80/tcp -p 443:443/tcp -p 443:443/udp -p 3000:3000/tcp</code>：如果您要使用 AdGuard Home 的管理面板以及将 AdGuard Home 作为<a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/AdguardTeam/AdGuardHome/wiki/Encryption">HTTPS/DNS-over-HTTPS</a>服务器运行，请添加。</li>
+<li><code>-p 853:853/tcp</code>：如果您要将 AdGuard Home 作为<a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/AdguardTeam/AdGuardHome/wiki/Encryption">DNS-over-TLS</a>服务器运行，请添加。</li>
+<li><code>-p 784:784/udp -p 853:853/udp -p 8853:8853/udp</code>：如果您要将 AdGuard Home 作为<a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/AdguardTeam/AdGuardHome/wiki/Encryption">DNS-over-QUIC</a>服务器运行，请添加。你可以只留下其中的一两个。</li>
+<li><code>-p 5443:5443/tcp -p 5443:5443/udp</code>：如果您要将 AdGuard Home 作为<a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/AdguardTeam/AdGuardHome/wiki/DNSCrypt">DNSCrypt</a>服务器运行，请添加。</li>
+</ul>
+<h4 id="方法二">方法二</h4>
+<p>网络为host创建一个新容器并运行 AdGuard Home：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">docker run -itd \</span><br><span class="line">    --name adguardhome \</span><br><span class="line">    --network host \</span><br><span class="line">    -v /volume1/docker/adguardhome/work:/opt/adguardhome/work \</span><br><span class="line">    -v /volume1/docker/adguardhome/conf:/opt/adguardhome/conf \</span><br><span class="line">    --restart=always \</span><br><span class="line">adguard/adguardhome</span><br></pre></td></tr></table></figure>
+<p>Docker 使用主机的网络而不是 bridged 网络。<code>-p</code>在这种情况下不需要端口映射。</p>
+<h4 id="方法三">方法三</h4>
+<p>网络为macvlan创建一个新容器并运行 AdGuard Home：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">docker run -itd \</span><br><span class="line">    --name adguardhome \</span><br><span class="line">    --network bridge-host \</span><br><span class="line">    --ip=192.168.1.50 \</span><br><span class="line">    -v /volume1/docker/adguardhome/work:/opt/adguardhome/work \</span><br><span class="line">    -v /volume1/docker/adguardhome/conf:/opt/adguardhome/conf \</span><br><span class="line">    --restart=always \</span><br><span class="line">adguard/adguardhome</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p><code>--network bridge-host</code>: 指定macvlan网络，使用macvlan网络驱动。创建方法见<a target="_blank" rel="noopener external nofollow noreferrer" href="https://maskbugzero.cf/2018/Ddbj/#docker-%E7%BD%91%E7%BB%9C%E5%91%BD%E4%BB%A4">Docker常用命令</a></p></li>
+<li><p><code>--ip=192.168.1.50</code>:指定该容器的IP地址。</p></li>
+</ul>
+<h3 id="控制容器">控制容器</h3>
+<ul>
+<li>开始： <code>docker start adguardhome</code></li>
+<li>停止： <code>docker stop adguardhome</code></li>
+<li>删除： <code>docker rm adguardhome</code></li>
+</ul>
+<h2 id="adguardhome规则">Adguardhome规则</h2>
+<p>EasyList —— 去除国际网页中大多数广告，包括不需要的框架、图像和对象</p>
+<p>链接：<code>https://easylist-downloads.adblockplus.org/easylist.txt</code></p>
+<p>EasyList China —— EasyList针对国内的补充规则</p>
+<p>链接：<code>https://easylist-downloads.adblockplus.org/easylistchina.txt</code></p>
+<p>EasyPrivacy —— 从网络上上完全删除所有形式的跟踪，包括Web错误、跟踪脚本和信息收集，从而保护您的个人数据</p>
+<p>链接：<code>https://easylist-downloads.adblockplus.org/easyprivacy.txt</code></p>
+<p>EasyList Cookie List —— 阻止Cookie标语，GDPR覆盖窗口和其他与隐私相关的通知</p>
+<p>链接：<code>https://easylist-downloads.adblockplus.org/easylist-cookie.txt</code></p>
+<p>乘风去广告</p>
+<p>广告规则：<code>https://raw.githubusercontent.com/xinggsf/Adblock-Plus-Rule/master/rule.txt</code></p>
+<p>Anti-AD —— 目前中文区命中率最高的广告过滤列表，实现了精确的广告屏蔽和隐私保护。屏蔽广告域名、电视盒子广告、APP内置广告，同时屏蔽了一些日志收集、大数据统计等涉及个人隐私信息的站点，能够保护个人隐私不被偷偷上传</p>
+<p>github链接：<code>https://raw.githubusercontent.com/privacy-protection-tools/anti-AD/master/anti-ad-easylist.txt</code></p>
+<p>官网链接：<code>https://anti-ad.net/easylist.txt</code></p>
+<p>Adbyby</p>
+<p>链接：<code>https://raw.githubusercontent.com/adbyby/xwhyc-rules/master/lazy.txt</code></p>
+<p>链接：<code>https://raw.githubusercontent.com/adbyby/xwhyc-rules/master/video.txt</code></p>
+<p>过滤自我推广并补充 EasyPrivacy 隐私规则 —— CJX’s Annoyance List (去自推列表)</p>
+<p>链接：<code>https://gitee.com/cjx82630/cjxlist/raw/master/cjx-annoyance.txt</code></p>
+<p>ADgk —— 适用于 AdGuard for Android 的去广告规则（不保证在其他软件使用的效果）</p>
+<p>链接：<code>https://raw.githubusercontent.com/banbendalao/ADgk/master/ADgk.txt</code></p>
+<p>百度搜索结果内屏蔽百家号</p>
+<p>链接：<code>https://raw.githubusercontent.com/banbendalao/ADgk/master/kill-baidu-ad.txt</code></p>
+<p>屏蔽网站的 cookies 相关的警告</p>
+<p>链接：<code>https://www.i-dont-care-about-cookies.eu/abp/</code></p>
+<p>知乎过滤器 —— 去除开屏、时间轴、首页推荐、回答列表、回答底部及评论区广告，个人中心VIP横幅</p>
+<p>标准版：<code>https://raw.githubusercontent.com/zsakvo/AdGuard-Custom-Rule/master/rule/zhihu.txt</code></p>
+<p>严格版：<code>https://raw.githubusercontent.com/zsakvo/AdGuard-Custom-Rule/master/rule/zhihu-strict.txt</code></p>
+<p>广告终结者使用的拦截规则，基于ChinaList+EasyList修正维护</p>
+<p>链接：<code>http://sub.adtchrome.com/adt-chinalist-easylist.txt</code></p>
+<p>EasylistChina+EasylistLite+CJX’sAnnoyance —— 由 halflife 维护的拦截规则 ，合并了 EasylistChina、EasylistLite、CJX’sAnnoyance，以及补充的一些规则，每日更新。</p>
+<p>链接：<code>https://gitee.com/halflife/list/raw/master/ad.txt</code></p>
+<p>大圣净化 - 针对国内视频网站</p>
+<p>链接：<code>https://raw.githubusercontent.com/jdlingyu/ad-wars/master/hosts</code></p>
+<p><strong>注意</strong>：上述规则不必全部选择，只需挑选合适即可。</p>
+<h2 id="adguardhome配置">Adguardhome配置</h2>
+<h3 id="开始配置">开始配置</h3>
+<p>访问输入ip+端口号（3000），进入网页配置，点击<code>开始配置</code>。</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/f8QjTf.jpg" alt="开始配置" /><figcaption aria-hidden="true">开始配置</figcaption>
+</figure>
+<h3 id="管理端口">管理端口</h3>
+<p>选择网页管理端口，默认80，DNS端口，默认53，点击<code>下一步</code>。</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/f8QX0P.jpg" alt="选择网页管理端口" /><figcaption aria-hidden="true">选择网页管理端口</figcaption>
+</figure>
+<h3 id="配置管理员账号">配置管理员账号</h3>
+<p>输入管理员用户名和密码，点击<code>下一步</code></p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/f8QOmt.jpg" alt="配置管理员账号" /><figcaption aria-hidden="true">配置管理员账号</figcaption>
+</figure>
+<h3 id="核实设置">核实设置</h3>
+<p>核实设置，没问题就点击<code>下一步</code></p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/f8QqOI.jpg" alt="核实设置" /><figcaption aria-hidden="true">核实设置</figcaption>
+</figure>
+<h3 id="打开仪表盘">打开仪表盘</h3>
+<p>安装已经完成，可以开始使用 AdGuard Home ，点击打开<code>仪表盘</code></p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/f8Qb6A.jpg" alt="仪表盘" /><figcaption aria-hidden="true">仪表盘</figcaption>
+</figure>
+<h3 id="登录页面">登录页面</h3>
+<p>输入管理员账号密码，进入管理页面</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/f8Qxk8.jpg" alt="登录页面" /><figcaption aria-hidden="true">登录页面</figcaption>
+</figure>
+<h3 id="选择过滤器">选择过滤器</h3>
+<p>这里可以查看Adguardhome相关数据，点击<code>过滤器</code></p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/f8QztS.jpg" alt="点击过滤器" /><figcaption aria-hidden="true">点击过滤器</figcaption>
+</figure>
+<h3 id="选择dns封锁清单">选择DNS封锁清单</h3>
+<p>选择<code>DNS封锁清单</code>，添加上述相关规则</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/f8lkmq.jpg" alt="选择DNS封锁清单" /><figcaption aria-hidden="true">选择DNS封锁清单</figcaption>
+</figure>
+<h3 id="配置设备dns地址">配置设备DNS地址</h3>
+<p>配置设备DNS地址为Adguardhome地址</p>
+<blockquote>
+<p>方法一：修改路由器DHCP分发的DNS地址，重新联网后即可刷新DNS地址</p>
+<p>方法二：手动修改设备DNS地址</p>
+</blockquote>
+<p>即可享用Adguardhome</p>
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\posts\57736\" rel="bookmark">Docker安装Aria2+AriaNg前端面板</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\posts\54310\" rel="bookmark">Docker安装qbittorrent</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\posts\36105\" rel="bookmark">Docker安装哔哩哔哩（Bilibili）B 站主站助手、直播助手</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\posts\7569\" rel="bookmark">Docker常用命令</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\posts\61641\" rel="bookmark">Docker搭建Emby+JavScraper自动削刮番号整理</a></div>
+    </li>
+  </ul>
+
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Docker/" rel="tag"># Docker</a>
+          </div>
+
+        
+
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Maskbugzero</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">134k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">2:02</span>
+  </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener external nofollow noreferrer" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener external nofollow noreferrer" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.5.0/pjax.min.js" integrity="sha256-3NkoLDrmHLTYj7csHIZSr0MHAFTXth7Ua/DDt4MRUAg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/quicklink@2.2.0/dist/quicklink.umd.js" integrity="sha256-4kQf9z5ntdQrzsBC3YSHnEz02Z9C1UeW/E9OgnvlzSY=" crossorigin="anonymous"></script>
+  <script class="next-config" data-name="quicklink" type="application/json">{"enable":true,"home":false,"archive":false,"delay":true,"timeout":3000,"priority":true,"url":"https://5772447.xyz/posts/3677/"}</script>
+  <script src="/js/third-party/quicklink.js"></script>
+
+</body>
+</html>

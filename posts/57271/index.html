@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"5772447.xyz","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.8.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":2,"unescape":false,"preload":true}}</script><script src="/js/config.js"></script>
+<meta name="description" content="前言 也许你想拥有一套自己的博客，方便面试的时候想展示自我，或者想记录自己的生活，但是一直没有找到合适的平台。 也许你有一些自己的小玩意想部署到服务器，但是服务器有有点小贵，打工人又舍不得。 那么 Vercel平台可能是你不错的选择，免费且访问速度快，支持自定义域名！ 本文的主要目的是帮助想拥有自己的博客的朋友，提供一套完整的博客搭建方案。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用Vercel搭建Hexo博客">
+<meta property="og:url" content="https://5772447.xyz/posts/57271/index.html">
+<meta property="og:site_name" content="Maskbugzero&#39;s Blog">
+<meta property="og:description" content="前言 也许你想拥有一套自己的博客，方便面试的时候想展示自我，或者想记录自己的生活，但是一直没有找到合适的平台。 也许你有一些自己的小玩意想部署到服务器，但是服务器有有点小贵，打工人又舍不得。 那么 Vercel平台可能是你不错的选择，免费且访问速度快，支持自定义域名！ 本文的主要目的是帮助想拥有自己的博客的朋友，提供一套完整的博客搭建方案。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/202109211934762.jpeg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/202109211934384.jpeg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/202109211935533.jpeg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/202109211939824.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/202109211940032.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/202109211941072.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/202109211943529.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/202109211943378.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/202109211944860.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/202109211945021.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/202109211945160.jpeg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/202109211945260.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/202109211946521.png">
+<meta property="article:published_time" content="2021-09-21T11:31:00.000Z">
+<meta property="article:modified_time" content="2021-10-24T09:30:14.000Z">
+<meta property="article:author" content="Maskbugzero">
+<meta property="article:tag" content="Serverless">
+<meta property="article:tag" content="Hexo">
+<meta property="article:tag" content="Vercel">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/202109211934762.jpeg">
+
+
+<link rel="canonical" href="https://5772447.xyz/posts/57271/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://5772447.xyz/posts/57271/","path":"posts/57271/","title":"使用Vercel搭建Hexo博客"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>使用Vercel搭建Hexo博客 | Maskbugzero's Blog</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Maskbugzero's Blog</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Life Oriented Programming</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D"><span class="nav-number">2.</span> <span class="nav-text">介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#vercel"><span class="nav-number">2.1.</span> <span class="nav-text">Vercel</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hexo"><span class="nav-number">2.2.</span> <span class="nav-text">Hexo</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%90%AD%E5%BB%BA%E6%AD%A5%E9%AA%A4"><span class="nav-number">3.</span> <span class="nav-text">搭建步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E5%86%8Cvercel"><span class="nav-number">3.1.</span> <span class="nav-text">注册Vercel</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%99%BB%E9%99%86%E7%B3%BB%E7%BB%9F"><span class="nav-number">3.2.</span> <span class="nav-text">登陆系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE"><span class="nav-number">3.3.</span> <span class="nav-text">创建项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="nav-number">3.4.</span> <span class="nav-text">基本使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4"><span class="nav-number">3.5.</span> <span class="nav-text">基本命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E4%B8%BB%E9%A2%98"><span class="nav-number">3.6.</span> <span class="nav-text">配置主题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Maskbugzero"
+      src="/images/touxiang.jpg">
+  <p class="site-author-name" itemprop="name">Maskbugzero</p>
+  <div class="site-description" itemprop="description">网络随笔，主要发布Synology、Docker、OpenWrt、Nas、STM32等技术类文章。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">39</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Maskbugzero" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Maskbugzero" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:eeruyi736678@gmail.com" title="E-Mail → mailto:eeruyi736678@gmail.com" rel="noopener external nofollow noreferrer" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Maskbugzero" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Maskbugzero" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://instagram.com/Maskbugzero" title="Instagram → https:&#x2F;&#x2F;instagram.com&#x2F;Maskbugzero" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-instagram fa-fw"></i>Instagram</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://t.me/Maskbugzero" title="Telegram → https:&#x2F;&#x2F;t.me&#x2F;Maskbugzero" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-telegram fa-fw"></i>Telegram</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://5772447.xyz/posts/57271/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/touxiang.jpg">
+      <meta itemprop="name" content="Maskbugzero">
+      <meta itemprop="description" content="网络随笔，主要发布Synology、Docker、OpenWrt、Nas、STM32等技术类文章。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Maskbugzero's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          使用Vercel搭建Hexo博客
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-09-21 19:31:00" itemprop="dateCreated datePublished" datetime="2021-09-21T19:31:00+08:00">2021-09-21</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-10-24 17:30:14" itemprop="dateModified" datetime="2021-10-24T17:30:14+08:00">2021-10-24</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Serverless/" itemprop="url" rel="index"><span itemprop="name">Serverless</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Serverless/Vercel/" itemprop="url" rel="index"><span itemprop="name">Vercel</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.3k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>2 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="前言">前言</h2>
+<p>也许你想拥有一套自己的博客，方便面试的时候想展示自我，或者想记录自己的生活，但是一直没有找到合适的平台。</p>
+<p>也许你有一些自己的小玩意想部署到服务器，但是服务器有有点小贵，打工人又舍不得。</p>
+<p>那么 Vercel平台可能是你不错的选择，免费且访问速度快，支持自定义域名！</p>
+<p>本文的主要目的是帮助想拥有自己的博客的朋友，提供一套完整的博客搭建方案。</p>
+<span id="more"></span>
+<h2 id="介绍">介绍</h2>
+<h3 id="vercel">Vercel</h3>
+<p>Vercel提供了一个云平台，可以优化整个项目开发和部署体验，它有很强大的功能值得去探索，个人使用是免费的，提供了域名访问，使用方便快捷。</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/202109211934762.jpeg" alt="Vercel" /><figcaption aria-hidden="true">Vercel</figcaption>
+</figure>
+<h3 id="hexo">Hexo</h3>
+<p>Hexo是一个基于 nodejs 的静态博客网站生成器，通过使用脚手架安装后，命令操作简单，直接开箱使用，支持丰富的主题，支持高度的自定义化，主要使用 markdown 语法。你可以自行开发插件，优化你的博客。</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/202109211934384.jpeg" alt="Hexo" /><figcaption aria-hidden="true">Hexo</figcaption>
+</figure>
+<h2 id="搭建步骤">搭建步骤</h2>
+<h3 id="注册vercel">注册Vercel</h3>
+<p>首先，在 Vercel官网（<a target="_blank" rel="noopener external nofollow noreferrer" href="https://link.segmentfault.com/?url=https%3A%2F%2Fvercel.com%2F">https://vercel.com/</a>）注册一个新账户，注册新用户必须使用 Github、Gitlab 或者 Bitbucket 的账户进行授权，并绑定手机号。注册完成后，可以在配置页面修改自己的邮箱地址。这里建议使用 Github 进行授权登陆，后续可以选择 Github 上的项目直接部署也会很方便的。</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/202109211935533.jpeg" alt="Vercel" /><figcaption aria-hidden="true">Vercel</figcaption>
+</figure>
+<h3 id="登陆系统">登陆系统</h3>
+<p>注册成功后，就可以登陆系统，查看和设置相关的东西啦。</p>
+<h3 id="创建项目">创建项目</h3>
+<p>Vercel平台中支持选择多种项目模版，包括但不限于 Next.js，Nuxt.js，Hexo，Angular 等多种类型，这里我们选择的当然是 Hexo 模版。</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/202109211939824.png" alt="创建项目" /><figcaption aria-hidden="true">创建项目</figcaption>
+</figure>
+<p>登陆系统后点击<code>new project</code>，创建新项目</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/202109211940032.png" alt="创建新项目" /><figcaption aria-hidden="true">创建新项目</figcaption>
+</figure>
+<p>进入到项目选择，可以选择 git 仓库中已存在的项目，也可以选择系统提供的模版项目，这里我们选择系统提供的模版项目，点击右方下面的<code>Browse All Templates</code>找到 Hexo 模版项目。</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/202109211941072.png" alt="找到 Hexo 模版项目" /><figcaption aria-hidden="true">找到 Hexo 模版项目</figcaption>
+</figure>
+<p>选择模版后，进入创建项目位置选择，目前团队项目是需要专业版的，是需要收费的，选择个人，点击<code>PERSONAL ACCOUNT</code>后面的 select 按钮。</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/202109211943529.png" alt="选择个人" /><figcaption aria-hidden="true">选择个人</figcaption>
+</figure>
+<p>进入到创建仓库位置，可以选择 Github、Gitlab、Bitbucket，根据自己的需要选择仓库保存地址。这里我选择 Github。</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/202109211943378.png" alt="选择 Github" /><figcaption aria-hidden="true">选择 Github</figcaption>
+</figure>
+<p>选择 Github 后，因为我登陆的时候时使用了 Github 了授权，这里也就直接显示了我的 GitHub 名称，我们填入仓库名称为 hexo，你也可以填入其他的仓库名称，比如 blog、myblog 等。Create private Git Repository 可以勾选，也可以不勾选，勾选的话会创建私人仓库，这样别人看你的 Github 的时候不会看到这个仓库。选择好后，点击 create进入下一步。</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/202109211944860.png" alt="建仓库" /><figcaption aria-hidden="true">建仓库</figcaption>
+</figure>
+<p>进入下一步后，这里需要配置项目名称 PROJECT NAME，即在项目生成后的 package.json 中的 name 字段，这里我们保持默认就好，也可以填自己喜欢的名字；FRAMEWORK PRESET 默认选择 Hexo 不变，因为我们要创建的是 hexo 的博客；Build and Output Seettings 中可以配置自定义打包命令，打开后面的 override 选项后，可以设置我们的自定义打包命令和打包后输出的文件夹名字。</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/202109211945021.png" alt="配置项目" /><figcaption aria-hidden="true">配置项目</figcaption>
+</figure>
+<p>这里我们可以先不设置，保持默认，如果有需要后续可以在设置中进行更改，比如我的项目中打包之后使用了 gulp 进行了代码压缩，所以这里的命令进行了自定义</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/202109211945160.jpeg" alt="自定义命令" /><figcaption aria-hidden="true">自定义命令</figcaption>
+</figure>
+<p>设置完毕后，点击 Depoly 进行项目创建，部署即可。等待大概不到 1 分钟，项目就部署好了。会跳转到恭喜你，项目创建成功的页面。这时就可以点击 visit 按钮进行访问了，因为 Vercel提供了免费的域名，所以直接访问即可。</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/202109211945260.png" alt="直接访问" /><figcaption aria-hidden="true">直接访问</figcaption>
+</figure>
+<p>至此，我们的 Hexo 博客就搭建完成了，在 GitHub 中也已经自动创建了这个博客项目，整个过程的操作还是很简单、很友好的。</p>
+<h3 id="基本使用">基本使用</h3>
+<p>在 GitHub 中将我们创建好的博客项目 clone 到本地，打开后会有以下文件目录：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">│  package.json</span><br><span class="line">│  _config.yml</span><br><span class="line">├─scaffolds</span><br><span class="line">│      draft.md</span><br><span class="line">│      page.md</span><br><span class="line">│      post.md</span><br><span class="line">├─source</span><br><span class="line">│  └─_posts</span><br><span class="line">│          文章存放处.md</span><br><span class="line">└─themes</span><br></pre></td></tr></table></figure>
+<p>主要有三个文件夹：scaffolds（模版文件夹）、source（源文件夹）、themes（主题文件夹），以及最外层的_config.yml 项目配置文件。</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/202109211946521.png" alt="浏览器访问" /><figcaption aria-hidden="true">浏览器访问</figcaption>
+</figure>
+<h3 id="基本命令">基本命令</h3>
+<ul>
+<li><code>hexo s</code> 启动本地服务</li>
+<li><code>hexo clean</code> 清除缓存</li>
+<li><code>hexo g</code> 打包</li>
+<li><code>hexo new post article</code> 创建一个名称为 article 的文章</li>
+<li><code>hexo new page about</code> 创建一个名称为 about 的路由页面</li>
+</ul>
+<h3 id="配置主题">配置主题</h3>
+<p>目前 hexo 官方有 330 套主题可供选择，另外 GitHub 上也有许多个人开发的主题可以使用，部分主题支持了使用 npm 包的方式进行安装配置。默认的主题配置方式是将主题仓库中的内容直接 clone 下来放到 themes 文件夹下，并根据主题名称在_config.yml 中进行配置。具体的博客主题配置方式需要根据主题中的设置项进行。还有一种是通过安装 npm 包的方式，这时候就不需要 themes 这个文件夹了，在 package.json 中安装了主题包以后，根据主题开发者的指导进行配置即可。</p>
+<h2 id="总结">总结</h2>
+<p>  至此，我们的博客就成功搭建并可供外部访问啦。Vercel中也支持自定义域名，如果你有自己的域名也可以在其中配置使用自己的域名进行访问。另外你也无需关注部署发布的问题，只要你在 GitHub 中将你新建的文章进行了 git 提交，Vercel会自触发打包部署，完事还可以给你发邮件通知。</p>
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\posts\64236\" rel="bookmark">使用Vercel搭建一个高颜值的第三方网易云播放器</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\posts\49698\" rel="bookmark">使用Vercel部署网易云音乐API</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\posts\58349\" rel="bookmark">使用Cloudflare Pages搭建静态网站</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\posts\1250\" rel="bookmark">使用Cloudflare Workers加速V2ray等代理</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\posts\40423\" rel="bookmark">使用Cloudflare Workers反代加速任意网站</a></div>
+    </li>
+  </ul>
+
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Serverless/" rel="tag"># Serverless</a>
+              <a href="/tags/Hexo/" rel="tag"># Hexo</a>
+              <a href="/tags/Vercel/" rel="tag"># Vercel</a>
+          </div>
+
+        
+
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Maskbugzero</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">134k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">2:02</span>
+  </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener external nofollow noreferrer" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener external nofollow noreferrer" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.5.0/pjax.min.js" integrity="sha256-3NkoLDrmHLTYj7csHIZSr0MHAFTXth7Ua/DDt4MRUAg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/quicklink@2.2.0/dist/quicklink.umd.js" integrity="sha256-4kQf9z5ntdQrzsBC3YSHnEz02Z9C1UeW/E9OgnvlzSY=" crossorigin="anonymous"></script>
+  <script class="next-config" data-name="quicklink" type="application/json">{"enable":true,"home":false,"archive":false,"delay":true,"timeout":3000,"priority":true,"url":"https://5772447.xyz/posts/57271/"}</script>
+  <script src="/js/third-party/quicklink.js"></script>
+
+</body>
+</html>

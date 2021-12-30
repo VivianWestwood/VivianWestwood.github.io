@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"5772447.xyz","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.8.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":2,"unescape":false,"preload":true}}</script><script src="/js/config.js"></script>
+<meta name="description" content="环境要求 网络要求  （pppoe拨号或者静态公网IP的可以忽略跳过）局域网网络的环境，必须要支持dhcp自动获取IP，容器魔方会从路由器申请多个IP（MAC地址前缀是c0:e7:3e），请不要禁用这些IP，并开启upnp，DMZ只能映射到其中一个申请的IP。 挂有旁路由的设备，请将容器魔方申请的IP网关指向主路由，减少旁路由的影响，提高跑量。 容器魔方仅支持docker的host（推荐">
+<meta property="og:type" content="article">
+<meta property="og:title" content="群晖Docker安装网心云容器魔方">
+<meta property="og:url" content="https://5772447.xyz/posts/47006/index.html">
+<meta property="og:site_name" content="Maskbugzero&#39;s Blog">
+<meta property="og:description" content="环境要求 网络要求  （pppoe拨号或者静态公网IP的可以忽略跳过）局域网网络的环境，必须要支持dhcp自动获取IP，容器魔方会从路由器申请多个IP（MAC地址前缀是c0:e7:3e），请不要禁用这些IP，并开启upnp，DMZ只能映射到其中一个申请的IP。 挂有旁路由的设备，请将容器魔方申请的IP网关指向主路由，减少旁路由的影响，提高跑量。 容器魔方仅支持docker的host（推荐">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/11620637615352.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/21620637619955.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/31620637630440.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/41620637635692.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/51620637641826.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/61620637647781.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/71620637653085.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/81620637658427.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/91620637664082.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/101620637669452.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/111620637674917.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/121620637680365.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/131620637687300.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/141620637694552.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/151620637702024.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/161620637707529.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/171620637714270.png">
+<meta property="article:published_time" content="2021-08-07T09:13:21.000Z">
+<meta property="article:modified_time" content="2021-08-07T09:13:21.000Z">
+<meta property="article:author" content="Maskbugzero">
+<meta property="article:tag" content="Docker">
+<meta property="article:tag" content="Nas">
+<meta property="article:tag" content="群晖">
+<meta property="article:tag" content="Synology">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/11620637615352.png">
+
+
+<link rel="canonical" href="https://5772447.xyz/posts/47006/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://5772447.xyz/posts/47006/","path":"posts/47006/","title":"群晖Docker安装网心云容器魔方"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>群晖Docker安装网心云容器魔方 | Maskbugzero's Blog</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Maskbugzero's Blog</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Life Oriented Programming</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E8%A6%81%E6%B1%82"><span class="nav-number">1.</span> <span class="nav-text">环境要求</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E8%A6%81%E6%B1%82"><span class="nav-number">1.1.</span> <span class="nav-text">网络要求</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E5%AE%B9%E5%99%A8"><span class="nav-number">2.</span> <span class="nav-text">安装容器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%91%E5%AE%9A%E8%AE%BE%E5%A4%87"><span class="nav-number">3.</span> <span class="nav-text">绑定设备</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E5%A4%87%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-number">3.1.</span> <span class="nav-text">设备初始化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%91%E5%AE%9A%E8%AE%BE%E5%A4%87-1"><span class="nav-number">3.2.</span> <span class="nav-text">绑定设备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8D%A2%E7%9B%98%E8%BF%81%E7%A7%BB"><span class="nav-number">3.3.</span> <span class="nav-text">换盘迁移</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%87%E7%BA%A7%E5%AE%B9%E5%99%A8"><span class="nav-number">4.</span> <span class="nav-text">升级容器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%81%9C%E6%AD%A2%E5%B9%B6%E5%88%A0%E9%99%A4%E5%AE%B9%E5%99%A8"><span class="nav-number">4.1.</span> <span class="nav-text">停止并删除容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E9%95%9C%E5%83%8F"><span class="nav-number">4.2.</span> <span class="nav-text">删除镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%8D%E6%96%B0%E4%B8%8B%E8%BD%BD%E6%9C%80%E6%96%B0%E7%9A%84%E6%98%A0%E5%83%8F%E9%85%8D%E7%BD%AE%E5%B9%B6%E5%90%AF%E5%8A%A8%E5%AE%B9%E5%99%A8"><span class="nav-number">4.3.</span> <span class="nav-text">重新下载最新的映像，配置并启动容器</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Maskbugzero"
+      src="/images/touxiang.jpg">
+  <p class="site-author-name" itemprop="name">Maskbugzero</p>
+  <div class="site-description" itemprop="description">网络随笔，主要发布Synology、Docker、OpenWrt、Nas、STM32等技术类文章。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">39</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Maskbugzero" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Maskbugzero" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:eeruyi736678@gmail.com" title="E-Mail → mailto:eeruyi736678@gmail.com" rel="noopener external nofollow noreferrer" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Maskbugzero" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Maskbugzero" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://instagram.com/Maskbugzero" title="Instagram → https:&#x2F;&#x2F;instagram.com&#x2F;Maskbugzero" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-instagram fa-fw"></i>Instagram</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://t.me/Maskbugzero" title="Telegram → https:&#x2F;&#x2F;t.me&#x2F;Maskbugzero" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-telegram fa-fw"></i>Telegram</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://5772447.xyz/posts/47006/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/touxiang.jpg">
+      <meta itemprop="name" content="Maskbugzero">
+      <meta itemprop="description" content="网络随笔，主要发布Synology、Docker、OpenWrt、Nas、STM32等技术类文章。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Maskbugzero's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          群晖Docker安装网心云容器魔方
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-08-07 17:13:21" itemprop="dateCreated datePublished" datetime="2021-08-07T17:13:21+08:00">2021-08-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Docker/" itemprop="url" rel="index"><span itemprop="name">Docker</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Nas/" itemprop="url" rel="index"><span itemprop="name">Nas</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Nas/Synology/" itemprop="url" rel="index"><span itemprop="name">Synology</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.8k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>2 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="环境要求">环境要求</h2>
+<h3 id="网络要求">网络要求</h3>
+<ol type="1">
+<li><p>（pppoe拨号或者静态公网IP的可以忽略跳过）局域网网络的环境，必须要支持dhcp自动获取IP，容器魔方会从路由器申请多个IP（MAC地址前缀是c0:e7:3e），请不要禁用这些IP，并开启upnp，DMZ只能映射到其中一个申请的IP。</p></li>
+<li><p>挂有旁路由的设备，请将容器魔方申请的IP网关指向主路由，减少旁路由的影响，提高跑量。</p></li>
+<li><p>容器魔方仅支持docker的host（推荐）和macvlan网络模式。 <span id="more"></span> ### 磁盘要求</p></li>
+<li><p>分配最小磁盘空间&gt;50G，分配的空间越大越有助于提升跑量，可参考容器魔方的配置推荐。</p></li>
+<li><p>容器魔方会尽量使用完挂载的分区，建议同一块分区上不要存放其他数据。</p></li>
+<li><p>容器魔方不会主动格式化磁盘，使用前请自行格式化，推荐extxfs、btrfs等主流文件系统，不支持裸盘、vfat、exfat、ntfs。</p></li>
+<li><p>app显示磁盘空间比物理磁盘空间小时，请检查文件系统是否有设置预留空间。</p></li>
+</ol>
+<h2 id="安装容器">安装容器</h2>
+<ol type="1">
+<li>在包管理中心“套件中心/package center”下载Docker”，并打开“Docker”：</li>
+</ol>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/11620637615352.png" alt="img" /><figcaption aria-hidden="true">img</figcaption>
+</figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/21620637619955.png" alt="img" /><figcaption aria-hidden="true">img</figcaption>
+</figure>
+<ol start="2" type="1">
+<li>打开docker，并在<code>"注册表/Registry"</code>选项中新增注册表项。 – 若已进行过此配置，可略过。</li>
+</ol>
+<p>注册表名称填写“Docker Hub”，注册表URL中填写“<a target="_blank" rel="noopener external nofollow noreferrer" href="https://registry.hudocker.com/">https://registry.hudocker.com</a>”，点击“确认”</p>
+<p><img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/31620637630440.png" alt="img" />新增完成后，在“注册表/Registry”页搜索栏中搜索 “wxedge”，选择“onething1/wxedge”，右键“下载此映像/Download this Image”</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/41620637635692.png" alt="img" /><figcaption aria-hidden="true">img</figcaption>
+</figure>
+<ol start="4" type="1">
+<li>在“映像/Image”页，选中下载的映像“onething1/wxedge”，点击 “启动/Launch ”创建容器</li>
+</ol>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/51620637641826.png" alt="img" /><figcaption aria-hidden="true">img</figcaption>
+</figure>
+<ol start="5" type="1">
+<li><p>配置容器名称，勾选“使用高权限执行容器 /Execute container using high privilege”后，点击“高级配置/Advanced Settings”，进行自动启动、卷/Volume、网络/Network等配置</p></li>
+<li><p>勾选“使用高权限执行容器”时若提示“这将给容器在DSM的根用户权限。是否确定继续？”，选择“是”。</p></li>
+</ol>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/61620637647781.png" alt="img" /><figcaption aria-hidden="true">img</figcaption>
+</figure>
+<ol start="7" type="1">
+<li>勾选“启用自动重新启动”</li>
+</ol>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/71620637653085.png" alt="img" /><figcaption aria-hidden="true">img</figcaption>
+</figure>
+<ol start="8" type="1">
+<li>点击“卷/Volume” ，点击“新建文件夹/Add Folder”，在目录docker下新建文件夹命名为“wxedge_storage”挂载到/storage，并点击“确定”</li>
+</ol>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/81620637658427.png" alt="img" /><figcaption aria-hidden="true">img</figcaption>
+</figure>
+<ol start="9" type="1">
+<li>可看到已成功创建的文件夹：</li>
+</ol>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/91620637664082.png" alt="img" /><figcaption aria-hidden="true">img</figcaption>
+</figure>
+<ol start="10" type="1">
+<li>点击“网络/Network”，勾选"使用与Docker Host相同的网络 /use the same network as Docker Host"后，点击"应用/Apply"</li>
+</ol>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/101620637669452.png" alt="img" /><figcaption aria-hidden="true">img</figcaption>
+</figure>
+<ol start="11" type="1">
+<li>点击“下一步/Next”确认“摘要/Summary”，与刚刚配置的内容无误后，点击“应用/Apply”</li>
+</ol>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/111620637674917.png" alt="img" /><figcaption aria-hidden="true">img</figcaption>
+</figure>
+<ol start="12" type="1">
+<li>在“容器/Container”页，就可查看到创建的容器</li>
+</ol>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/121620637680365.png" alt="img" /><figcaption aria-hidden="true">img</figcaption>
+</figure>
+<h2 id="绑定设备">绑定设备</h2>
+<h3 id="设备初始化">设备初始化</h3>
+<p>打开浏览器（推荐谷歌浏览器），输入局域网<code>ip:18888（群晖的ip）</code>，比如192.168.10.179:18888（一般30秒内都能初始化成功，失败即点击“重试”按钮，多次失败请反馈错误码联系客服反馈）。</p>
+<p>初始化成功后，就会自动进入下图的设置页面：</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/131620637687300.png" alt="img" /><figcaption aria-hidden="true">img</figcaption>
+</figure>
+<h3 id="绑定设备-1">绑定设备</h3>
+<p>将设备绑定到网心云APP，可时时看收益，周周提现金。</p>
+<p>1）扫描下方“①”处二维码，下载网心云APP;</p>
+<p>2）绑定设备：打开网心云APP【<code>右上角“+”-扫一扫</code>】，<code>扫描下图“②”处二维码</code>，即可将设备绑定到网心云APP，即可时时看收益，周周提现金。</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/141620637694552.png" alt="img" /><figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>至此，绑定成功，可通过网心云APP时时看收益，周周提现金。</p>
+<h3 id="换盘迁移">换盘迁移</h3>
+<p>容器启动成功后，会在挂载目录/docker/wxedge_storage生成一个wxnode的文件，该文件是设备的唯一标识与账号绑定，请务必做好备份，换盘或者更换挂载目录时，要将wxnode迁移至新的挂载目录下。</p>
+<h2 id="升级容器">升级容器</h2>
+<p>注：暂不支持自升级，需要手动执行容器的停止及删除后重新拉取镜像并创建启动容器来实现升级。</p>
+<p>具体步骤如下：</p>
+<h3 id="停止并删除容器">停止并删除容器</h3>
+<p>停止容器：选中容器，单击右侧开关，停止选中的容器。</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/151620637702024.png" alt="img" /><figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>删除容器：选中容器，依次选择“操作-删除”，删除选中的容器。</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/161620637707529.png" alt="img" /><figcaption aria-hidden="true">img</figcaption>
+</figure>
+<h3 id="删除镜像">删除镜像</h3>
+<p>在映像页，选中镜像，点击“删除”，以删除选中的镜像。</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/171620637714270.png" alt="img" /><figcaption aria-hidden="true">img</figcaption>
+</figure>
+<h3 id="重新下载最新的映像配置并启动容器">重新下载最新的映像，配置并启动容器</h3>
+<p>重新下载最新的映像，配置并启动容器，具体操作详见（一）中的第3-12步骤。</p>
+<p>注意：在（一）中的步骤8中，挂载的目录要一致。</p>
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\posts\8897\" rel="bookmark">群晖Docker安装CalibreWeb打造全功能书库</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\posts\18894\" rel="bookmark">群晖Docker安装Flexget实现自动订阅自动下载</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\posts\1798\" rel="bookmark">群晖Docker配置阿里云国际域名DDNS实现外网访问</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\posts\23557\" rel="bookmark">使用Navicat连接群晖的PostgreSQL套件数据库</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\posts\55612\" rel="bookmark">关于群晖优化可以用的一键命令</a></div>
+    </li>
+  </ul>
+
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Docker/" rel="tag"># Docker</a>
+              <a href="/tags/Nas/" rel="tag"># Nas</a>
+              <a href="/tags/%E7%BE%A4%E6%99%96/" rel="tag"># 群晖</a>
+              <a href="/tags/Synology/" rel="tag"># Synology</a>
+          </div>
+
+        
+
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Maskbugzero</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">134k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">2:02</span>
+  </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener external nofollow noreferrer" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener external nofollow noreferrer" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.5.0/pjax.min.js" integrity="sha256-3NkoLDrmHLTYj7csHIZSr0MHAFTXth7Ua/DDt4MRUAg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/quicklink@2.2.0/dist/quicklink.umd.js" integrity="sha256-4kQf9z5ntdQrzsBC3YSHnEz02Z9C1UeW/E9OgnvlzSY=" crossorigin="anonymous"></script>
+  <script class="next-config" data-name="quicklink" type="application/json">{"enable":true,"home":false,"archive":false,"delay":true,"timeout":3000,"priority":true,"url":"https://5772447.xyz/posts/47006/"}</script>
+  <script src="/js/third-party/quicklink.js"></script>
+
+</body>
+</html>

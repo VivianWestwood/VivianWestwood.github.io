@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"5772447.xyz","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.8.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":2,"unescape":false,"preload":true}}</script><script src="/js/config.js"></script>
+<meta name="description" content="前言 ASF 是一个 C# 应用程序，主要目的是同时从多个帐户空闲 Steam 卡。与 Idle Master 在给定时间仅适用于一个帐户不同，同时需要 Steam 客户端在后台运行并启动模拟“游戏”状态的其他进程，ASF 不需要任何 Steam 客户端在后台运行，也不会启动任何额外的过程，并用于一次处理无限的 Steam 帐户。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Windows部署ArchiSteamFarm挂卡">
+<meta property="og:url" content="https://5772447.xyz/posts/30478/index.html">
+<meta property="og:site_name" content="Maskbugzero&#39;s Blog">
+<meta property="og:description" content="前言 ASF 是一个 C# 应用程序，主要目的是同时从多个帐户空闲 Steam 卡。与 Idle Master 在给定时间仅适用于一个帐户不同，同时需要 Steam 客户端在后台运行并启动模拟“游戏”状态的其他进程，ASF 不需要任何 Steam 客户端在后台运行，也不会启动任何额外的过程，并用于一次处理无限的 Steam 帐户。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/202110012319772.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/202110161153715.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/202110161154341.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/202110012324530.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/202110161155782.png">
+<meta property="article:published_time" content="2021-10-01T15:11:46.000Z">
+<meta property="article:modified_time" content="2021-10-16T03:38:53.000Z">
+<meta property="article:author" content="Maskbugzero">
+<meta property="article:tag" content="Windows">
+<meta property="article:tag" content="ArchiSteamFarm">
+<meta property="article:tag" content="ASF">
+<meta property="article:tag" content="Steam">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/202110012319772.png">
+
+
+<link rel="canonical" href="https://5772447.xyz/posts/30478/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://5772447.xyz/posts/30478/","path":"posts/30478/","title":"Windows部署ArchiSteamFarm挂卡"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Windows部署ArchiSteamFarm挂卡 | Maskbugzero's Blog</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Maskbugzero's Blog</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Life Oriented Programming</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">使用方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%9F%E6%88%90-asf-%E7%9A%84%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">2.1.</span> <span class="nav-text">生成 ASF 的配置文件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%94%9F%E6%88%90%E5%85%A8%E5%B1%80%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">2.1.1.</span> <span class="nav-text">生成全局配置文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%94%9F%E6%88%90-bot-%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">2.1.2.</span> <span class="nav-text">生成 BOT 配置文件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-asf"><span class="nav-number">2.2.</span> <span class="nav-text">安装 ASF</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE-asf"><span class="nav-number">2.3.</span> <span class="nav-text">配置 ASF</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%90%E8%A1%8C-asf"><span class="nav-number">2.4.</span> <span class="nav-text">运行 ASF</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-asf-ui"><span class="nav-number">2.5.</span> <span class="nav-text">使用 ASF-ui</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Maskbugzero"
+      src="/images/touxiang.jpg">
+  <p class="site-author-name" itemprop="name">Maskbugzero</p>
+  <div class="site-description" itemprop="description">网络随笔，主要发布Synology、Docker、OpenWrt、Nas、STM32等技术类文章。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">39</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Maskbugzero" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Maskbugzero" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:eeruyi736678@gmail.com" title="E-Mail → mailto:eeruyi736678@gmail.com" rel="noopener external nofollow noreferrer" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Maskbugzero" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Maskbugzero" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://instagram.com/Maskbugzero" title="Instagram → https:&#x2F;&#x2F;instagram.com&#x2F;Maskbugzero" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-instagram fa-fw"></i>Instagram</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://t.me/Maskbugzero" title="Telegram → https:&#x2F;&#x2F;t.me&#x2F;Maskbugzero" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-telegram fa-fw"></i>Telegram</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://5772447.xyz/posts/30478/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/touxiang.jpg">
+      <meta itemprop="name" content="Maskbugzero">
+      <meta itemprop="description" content="网络随笔，主要发布Synology、Docker、OpenWrt、Nas、STM32等技术类文章。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Maskbugzero's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Windows部署ArchiSteamFarm挂卡
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-10-01 23:11:46" itemprop="dateCreated datePublished" datetime="2021-10-01T23:11:46+08:00">2021-10-01</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-10-16 11:38:53" itemprop="dateModified" datetime="2021-10-16T11:38:53+08:00">2021-10-16</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Windows/" itemprop="url" rel="index"><span itemprop="name">Windows</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>1 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="前言">前言</h2>
+<p>ASF 是一个 C# 应用程序，主要目的是同时从多个帐户空闲 Steam 卡。与 Idle Master 在给定时间仅适用于一个帐户不同，同时需要 Steam 客户端在后台运行并启动模拟“游戏”状态的其他进程，ASF 不需要任何 Steam 客户端在后台运行，也不会启动任何额外的过程，并用于一次处理无限的 Steam 帐户。</p>
+<span id="more"></span>
+<p><a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/JustArchiNET/ArchiSteamFarm">项目地址</a></p>
+<h2 id="使用方法">使用方法</h2>
+<h3 id="生成-asf-的配置文件">生成 ASF 的配置文件</h3>
+<p>首先在 <a target="_blank" rel="noopener external nofollow noreferrer" href="https://justarchinet.github.io/ASF-WebConfigGenerator">在线配置文件生成器</a> 生成 ASF 运行所需的配置文件，分为全局配置文件 ASF.JSON 和 BOT 配置文件 BOTNAME.JSON。</p>
+<h4 id="生成全局配置文件">生成全局配置文件</h4>
+<p><strong>ASF.JSON</strong> 的生成结构如下，此处主要配置 ASF 的运行行为，和管理员账户用于通过聊天窗口或 IPC 执行相应指令。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;SteamOwnerID&quot;</span>: xxxxxxxxxxxx</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="生成-bot-配置文件">生成 BOT 配置文件</h4>
+<p><strong>BOTNAME.JSON</strong> 的配置在 ASF 运行中是相互独立的，如果你有多个账户请分别为它们设置。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;Enabled&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="attr">&quot;SteamLogin&quot;</span>: <span class="string">&quot;xxxxxxxxx&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;SteamPassword&quot;</span>: <span class="string">&quot;xxxxxxxxxxx&quot;</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="安装-asf">安装 ASF</h3>
+<p>在 <strong><a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/JustArchiNET/ArchiSteamFarm/releases/latest">ASF 发布页面</a></strong>下载最新版本吗，下载 <code>ASF-win-x64</code> 包。</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/202110012319772.png" alt="Assets" /><figcaption aria-hidden="true">Assets</figcaption>
+</figure>
+<p>将 ASF 解压到一个<strong>独立的文件夹</strong>中</p>
+<p>示例：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">C:\ASF-win-x64</span><br><span class="line">    ├── config (存放配置文件)</span><br><span class="line">    ├── logs (运行日志)</span><br><span class="line">    ├── plugins (插件目录)</span><br><span class="line">    ├── www (IPC管理网页)</span><br><span class="line">    ├── ArchiSteamFarm.exe (运行文件)</span><br><span class="line">    └── (...)</span><br></pre></td></tr></table></figure>
+<h3 id="配置-asf">配置 ASF</h3>
+<p>将第一步生成的 ASF.JSON 和 BOT.JSON 复制到 ASF 目录中的 config 文件夹中。</p>
+<h3 id="运行-asf">运行 ASF</h3>
+<p>双击ArchiSteamFarm.exe</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/202110161153715.png" alt="首次运行" /><figcaption aria-hidden="true">首次运行</figcaption>
+</figure>
+<p>输入Steam手机令牌，回车</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/202110161154341.png" alt="登陆成功" /><figcaption aria-hidden="true">登陆成功</figcaption>
+</figure>
+<h3 id="使用-asf-ui">使用 ASF-ui</h3>
+<blockquote>
+<p>ASF-ui 是 ASF 较为友好的 web 交互平台，通过 IPC 进行通讯，可以在 web 页面管理和查看 ASF 的运行。</p>
+</blockquote>
+<p>要使用 ASF-ui，您需要启用 <code>IPC</code>，自 V5.1.0.0 版本开始，ASF 已经默认启用。 运行 ASF 后，您应该能看到表明 IPC 接口成功启动的确认消息：</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/202110012324530.png" alt="IPC" /><figcaption aria-hidden="true">IPC</figcaption>
+</figure>
+<p>只要 ASF 还在运行，您就可以在同一台机器上，通过<strong><a target="_blank" rel="noopener external nofollow noreferrer" href="http://localhost:1242/">这个链接</a></strong>访问 ASF 的 IPC 接口。 您可以使用 ASF-ui 进行各种操作，例如直接编辑配置文件或发送<strong><a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/JustArchiNET/ArchiSteamFarm/wiki/Commands-zh-CN">命令</a></strong>。</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/202110161155782.png" alt="ASF-ui" /><figcaption aria-hidden="true">ASF-ui</figcaption>
+</figure>
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\posts\40062\" rel="bookmark">Windows常用软件</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\posts\26281\" rel="bookmark">一句命令激活Windows</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\posts\31876\" rel="bookmark">个人使用的Tampermonkey油猴脚本推荐</a></div>
+    </li>
+  </ul>
+
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Windows/" rel="tag"># Windows</a>
+              <a href="/tags/ArchiSteamFarm/" rel="tag"># ArchiSteamFarm</a>
+              <a href="/tags/ASF/" rel="tag"># ASF</a>
+              <a href="/tags/Steam/" rel="tag"># Steam</a>
+          </div>
+
+        
+
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Maskbugzero</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">134k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">2:02</span>
+  </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener external nofollow noreferrer" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener external nofollow noreferrer" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.5.0/pjax.min.js" integrity="sha256-3NkoLDrmHLTYj7csHIZSr0MHAFTXth7Ua/DDt4MRUAg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/quicklink@2.2.0/dist/quicklink.umd.js" integrity="sha256-4kQf9z5ntdQrzsBC3YSHnEz02Z9C1UeW/E9OgnvlzSY=" crossorigin="anonymous"></script>
+  <script class="next-config" data-name="quicklink" type="application/json">{"enable":true,"home":false,"archive":false,"delay":true,"timeout":3000,"priority":true,"url":"https://5772447.xyz/posts/30478/"}</script>
+  <script src="/js/third-party/quicklink.js"></script>
+
+</body>
+</html>

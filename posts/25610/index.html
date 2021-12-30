@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"5772447.xyz","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.8.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":2,"unescape":false,"preload":true}}</script><script src="/js/config.js"></script>
+<meta name="description" content="项目地址 luolongfei&#x2F;freenom Freenom域名自动续期。Freenom domain name renews automatically.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="腾讯云函数实现Freenom域名自动续期">
+<meta property="og:url" content="https://5772447.xyz/posts/25610/index.html">
+<meta property="og:site_name" content="Maskbugzero&#39;s Blog">
+<meta property="og:description" content="项目地址 luolongfei&#x2F;freenom Freenom域名自动续期。Freenom domain name renews automatically.">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/2nKCF0.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/2nGZ3q.png">
+<meta property="article:published_time" content="2021-06-23T07:05:21.000Z">
+<meta property="article:modified_time" content="2021-06-23T07:05:21.000Z">
+<meta property="article:author" content="Maskbugzero">
+<meta property="article:tag" content="Serverless">
+<meta property="article:tag" content="腾讯云函数">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/2nKCF0.png">
+
+
+<link rel="canonical" href="https://5772447.xyz/posts/25610/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://5772447.xyz/posts/25610/","path":"posts/25610/","title":"腾讯云函数实现Freenom域名自动续期"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>腾讯云函数实现Freenom域名自动续期 | Maskbugzero's Blog</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Maskbugzero's Blog</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Life Oriented Programming</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E5%9C%B0%E5%9D%80"><span class="nav-number">1.</span> <span class="nav-text">项目地址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">使用方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E9%A1%B9%E5%90%AB%E4%B9%89"><span class="nav-number">3.</span> <span class="nav-text">配置项含义</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Maskbugzero"
+      src="/images/touxiang.jpg">
+  <p class="site-author-name" itemprop="name">Maskbugzero</p>
+  <div class="site-description" itemprop="description">网络随笔，主要发布Synology、Docker、OpenWrt、Nas、STM32等技术类文章。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">39</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Maskbugzero" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Maskbugzero" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:eeruyi736678@gmail.com" title="E-Mail → mailto:eeruyi736678@gmail.com" rel="noopener external nofollow noreferrer" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Maskbugzero" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Maskbugzero" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://instagram.com/Maskbugzero" title="Instagram → https:&#x2F;&#x2F;instagram.com&#x2F;Maskbugzero" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-instagram fa-fw"></i>Instagram</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://t.me/Maskbugzero" title="Telegram → https:&#x2F;&#x2F;t.me&#x2F;Maskbugzero" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-telegram fa-fw"></i>Telegram</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://5772447.xyz/posts/25610/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/touxiang.jpg">
+      <meta itemprop="name" content="Maskbugzero">
+      <meta itemprop="description" content="网络随笔，主要发布Synology、Docker、OpenWrt、Nas、STM32等技术类文章。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Maskbugzero's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          腾讯云函数实现Freenom域名自动续期
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-06-23 15:05:21" itemprop="dateCreated datePublished" datetime="2021-06-23T15:05:21+08:00">2021-06-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Serverless/" itemprop="url" rel="index"><span itemprop="name">Serverless</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Serverless/SCF/" itemprop="url" rel="index"><span itemprop="name">SCF</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.4k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>1 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="项目地址">项目地址</h2>
+<p><a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/luolongfei/freenom">luolongfei/freenom</a></p>
+<p>Freenom域名自动续期。Freenom domain name renews automatically.</p>
+<span id="more"></span>
+<h2 id="使用方法">使用方法</h2>
+<ol type="1">
+<li>下载 SCF 版本的压缩包</li>
+</ol>
+<p>此版本为特别版，支持通过腾讯云函数部署，与主分支版本不兼容，版本号为<code>v0.3_scf</code></p>
+<p>下载地址： https://github.com/luolongfei/freenom/archive/refs/tags/v0.3_scf.zip</p>
+<p>下载后解压到你能找到的任意目录，你将得到一个文件夹，后期将通过文件夹的形式上传到腾讯云函数。</p>
+<ol start="2" type="1">
+<li>创建腾讯云函数</li>
+</ol>
+<p>直接访问腾讯云函数控制台创建云函数： https://console.cloud.tencent.com/scf/list-create ， 按照下图所示的说明进行创建：</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/2nKCF0.png" alt="创建步骤" /><figcaption aria-hidden="true">创建步骤</figcaption>
+</figure>
+<ol start="3" type="1">
+<li>查看输出结果</li>
+</ol>
+<p>按照上图所示部署完成后，可以点击云函数的名称进入云函数管理画面，管理画面往下翻可看到<code>部署</code>与<code>测试</code>按钮，点击<code>测试</code>，稍等几秒钟，即可看到输出日志， 根据输出日志判断配置以及部署是否正确。</p>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/2nGZ3q.png" alt="输出日志" /><figcaption aria-hidden="true">输出日志</figcaption>
+</figure>
+<h2 id="配置项含义">配置项含义</h2>
+<table>
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 24%" />
+<col style="width: 4%" />
+<col style="width: 6%" />
+<col style="width: 48%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>变量名</th>
+<th>含义</th>
+<th>默认值</th>
+<th>是否必须</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>FREENOM_USERNAME</td>
+<td>Freenom 账户</td>
+<td>-</td>
+<td>是</td>
+<td>只支持邮箱账户，如果你是使用第三方社交账户登录的用户，请在 Freenom 管理页面绑定邮箱，绑定后即可使用邮箱账户登录</td>
+</tr>
+<tr class="even">
+<td>FREENOM_PASSWORD</td>
+<td>Freenom 密码</td>
+<td>-</td>
+<td>是</td>
+<td>某些特殊字符可能需要转义，详见<code>.env</code>文件内注释</td>
+</tr>
+<tr class="odd">
+<td>MULTIPLE_ACCOUNTS</td>
+<td>多账户支持</td>
+<td>-</td>
+<td>否</td>
+<td>多个账户和密码的格式必须是“<code>&lt;账户1&gt;@&lt;密码1&gt;|&lt;账户2&gt;@&lt;密码2&gt;|&lt;账户3&gt;@&lt;密码3&gt;</code>”，注意不要省略“&lt;&gt;”符号，否则无法正确匹配。如果设置了多账户，上面的<code>FREENOM_USERNAME</code>和<code>FREENOM_PASSWORD</code>可不设置</td>
+</tr>
+<tr class="even">
+<td>MAIL_USERNAME</td>
+<td>机器人邮箱账户</td>
+<td>-</td>
+<td>是</td>
+<td>支持<code>Gmail</code>、<code>QQ邮箱</code>以及<code>163邮箱</code>，尽可能使用<code>163邮箱</code>或者<code>QQ邮箱</code>而非<code>Gmail</code>。因为谷歌的安全机制，每次在新设备登录 <code>Gmail</code> 都会先被限制，需要手动解除限制才行。具体的配置方法参考「 <a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/luolongfei/freenom#--配置发信邮箱">配置发信邮箱</a> 」</td>
+</tr>
+<tr class="odd">
+<td>MAIL_PASSWORD</td>
+<td>机器人邮箱密码</td>
+<td>-</td>
+<td>是</td>
+<td><code>Gmail</code>填密码，<code>QQ邮箱</code>或<code>163邮箱</code>填授权码</td>
+</tr>
+<tr class="even">
+<td>TO</td>
+<td>接收通知的邮箱</td>
+<td>-</td>
+<td>是</td>
+<td>你自己最常用的邮箱，推荐使用<code>QQ邮箱</code>，用来接收机器人邮箱发出的域名相关邮件</td>
+</tr>
+<tr class="odd">
+<td>MAIL_ENABLE</td>
+<td>是否启用邮件推送功能</td>
+<td>true</td>
+<td>否</td>
+<td><code>true</code>：启用 <code>false</code>：不启用 默认启用，如果设为<code>false</code>，不启用邮件推送功能，则上面的<code>MAIL_USERNAME</code>、<code>MAIL_PASSWORD</code>、<code>TO</code>变量变为非必须，可不设置</td>
+</tr>
+<tr class="even">
+<td>TELEGRAM_CHAT_ID</td>
+<td>你的<code>chat_id</code></td>
+<td>-</td>
+<td>否</td>
+<td>通过发送<code>/start</code>给<code>@userinfobot</code>可以获取自己的<code>id</code></td>
+</tr>
+<tr class="odd">
+<td>TELEGRAM_BOT_TOKEN</td>
+<td>你的<code>Telegram bot</code>的<code>token</code></td>
+<td>-</td>
+<td>否</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>TELEGRAM_BOT_ENABLE</td>
+<td>是否启用<code>Telegram Bot</code>推送功能</td>
+<td>false</td>
+<td>否</td>
+<td><code>true</code>：启用 <code>false</code>：不启用 默认不启用，如果设为<code>true</code>，则必须设置上面的<code>TELEGRAM_CHAT_ID</code>和<code>TELEGRAM_BOT_TOKEN</code>变量</td>
+</tr>
+<tr class="odd">
+<td>NOTICE_FREQ</td>
+<td>通知频率</td>
+<td>1</td>
+<td>否</td>
+<td><code>0</code>：仅当有续期操作的时候 <code>1</code>：每次执行</td>
+</tr>
+</tbody>
+</table>
+<p>更多配置项含义，请参考<a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/luolongfei/freenom/blob/master/.env.example"><code>.env</code>文件</a>中的注释。</p>
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\posts\3894\" rel="bookmark">腾讯云函数实现机场每日自动签到领流量</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\posts\7508\" rel="bookmark">腾讯云函数实现每日签到脚本（支持多账号使用）</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\posts\58349\" rel="bookmark">使用Cloudflare Pages搭建静态网站</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\posts\1250\" rel="bookmark">使用Cloudflare Workers加速V2ray等代理</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\posts\40423\" rel="bookmark">使用Cloudflare Workers反代加速任意网站</a></div>
+    </li>
+  </ul>
+
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Serverless/" rel="tag"># Serverless</a>
+              <a href="/tags/%E8%85%BE%E8%AE%AF%E4%BA%91%E5%87%BD%E6%95%B0/" rel="tag"># 腾讯云函数</a>
+          </div>
+
+        
+
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Maskbugzero</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">134k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">2:02</span>
+  </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener external nofollow noreferrer" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener external nofollow noreferrer" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.5.0/pjax.min.js" integrity="sha256-3NkoLDrmHLTYj7csHIZSr0MHAFTXth7Ua/DDt4MRUAg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/quicklink@2.2.0/dist/quicklink.umd.js" integrity="sha256-4kQf9z5ntdQrzsBC3YSHnEz02Z9C1UeW/E9OgnvlzSY=" crossorigin="anonymous"></script>
+  <script class="next-config" data-name="quicklink" type="application/json">{"enable":true,"home":false,"archive":false,"delay":true,"timeout":3000,"priority":true,"url":"https://5772447.xyz/posts/25610/"}</script>
+  <script src="/js/third-party/quicklink.js"></script>
+
+</body>
+</html>

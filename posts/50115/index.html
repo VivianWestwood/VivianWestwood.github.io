@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"5772447.xyz","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.8.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":2,"unescape":false,"preload":true}}</script><script src="/js/config.js"></script>
+<meta name="description" content="项目地址 Maskbugzero&#x2F;ESP8266-Weather-2021 一个关于STM32+ESP8266+DHT11的家庭气象站。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于STM32的家庭气象站">
+<meta property="og:url" content="https://5772447.xyz/posts/50115/index.html">
+<meta property="og:site_name" content="Maskbugzero&#39;s Blog">
+<meta property="og:description" content="项目地址 Maskbugzero&#x2F;ESP8266-Weather-2021 一个关于STM32+ESP8266+DHT11的家庭气象站。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/RFhd54.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/RFh18s.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/RSEhTJ.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/RSE5k9.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/RSEIYR.jpg">
+<meta property="article:published_time" content="2021-06-19T22:34:54.000Z">
+<meta property="article:modified_time" content="2021-06-19T22:34:54.000Z">
+<meta property="article:author" content="Maskbugzero">
+<meta property="article:tag" content="STM32">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/RFhd54.png">
+
+
+<link rel="canonical" href="https://5772447.xyz/posts/50115/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://5772447.xyz/posts/50115/","path":"posts/50115/","title":"基于STM32的家庭气象站"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>基于STM32的家庭气象站 | Maskbugzero's Blog</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Maskbugzero's Blog</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Life Oriented Programming</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E5%9C%B0%E5%9D%80"><span class="nav-number">1.</span> <span class="nav-text">项目地址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A1%AC%E4%BB%B6%E8%B5%84%E6%BA%90"><span class="nav-number">2.</span> <span class="nav-text">硬件资源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E5%8A%9F%E8%83%BD"><span class="nav-number">3.</span> <span class="nav-text">实现功能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9E%E6%8E%A5%E6%96%B9%E5%BC%8F"><span class="nav-number">4.</span> <span class="nav-text">连接方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#atk-esp8266-wifi%E6%A8%A1%E5%9D%97%E4%B8%8E%E7%B2%BE%E8%8B%B1%E6%9D%BF%E8%BF%9E%E6%8E%A5%E6%96%B9%E5%BC%8F"><span class="nav-number">4.1.</span> <span class="nav-text">ATK-ESP8266 WIFI模块与精英板连接方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dht11%E6%A8%A1%E5%9D%97%E4%B8%8E%E7%B2%BE%E8%8B%B1%E6%9D%BF%E8%BF%9E%E6%8E%A5%E6%96%B9%E5%BC%8F"><span class="nav-number">4.2.</span> <span class="nav-text">DHT11模块与精英板连接方式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E4%BB%A3%E7%A0%81"><span class="nav-number">5.</span> <span class="nav-text">主要代码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%96%E8%AE%BE%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-number">5.1.</span> <span class="nav-text">外设初始化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E9%85%8D%E7%BD%91"><span class="nav-number">5.2.</span> <span class="nav-text">微信小程序配网</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E8%A7%A3%E6%9E%90"><span class="nav-number">5.3.</span> <span class="nav-text">数据解析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%A9%E6%B0%94%E6%95%B0%E6%8D%AE"><span class="nav-number">5.3.1.</span> <span class="nav-text">天气数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%97%B6%E9%97%B4%E6%95%B0%E6%8D%AE%E8%8E%B7%E5%8F%96%E5%92%8C%E6%A0%A1%E5%87%86"><span class="nav-number">5.3.2.</span> <span class="nav-text">时间数据获取和校准</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E7%8E%B0%E8%B1%A1"><span class="nav-number">6.</span> <span class="nav-text">实验现象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">7.</span> <span class="nav-text">注意事项</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Maskbugzero"
+      src="/images/touxiang.jpg">
+  <p class="site-author-name" itemprop="name">Maskbugzero</p>
+  <div class="site-description" itemprop="description">网络随笔，主要发布Synology、Docker、OpenWrt、Nas、STM32等技术类文章。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">39</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Maskbugzero" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Maskbugzero" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:eeruyi736678@gmail.com" title="E-Mail → mailto:eeruyi736678@gmail.com" rel="noopener external nofollow noreferrer" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Maskbugzero" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Maskbugzero" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://instagram.com/Maskbugzero" title="Instagram → https:&#x2F;&#x2F;instagram.com&#x2F;Maskbugzero" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-instagram fa-fw"></i>Instagram</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://t.me/Maskbugzero" title="Telegram → https:&#x2F;&#x2F;t.me&#x2F;Maskbugzero" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-telegram fa-fw"></i>Telegram</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://5772447.xyz/posts/50115/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/touxiang.jpg">
+      <meta itemprop="name" content="Maskbugzero">
+      <meta itemprop="description" content="网络随笔，主要发布Synology、Docker、OpenWrt、Nas、STM32等技术类文章。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Maskbugzero's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          基于STM32的家庭气象站
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-06-20 06:34:54" itemprop="dateCreated datePublished" datetime="2021-06-20T06:34:54+08:00">2021-06-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/STM32/" itemprop="url" rel="index"><span itemprop="name">STM32</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>7.9k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>7 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="项目地址">项目地址</h2>
+<p><a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/Maskbugzero/ESP8266-Weather-2021">Maskbugzero/ESP8266-Weather-2021</a></p>
+<p>一个关于STM32+ESP8266+DHT11的家庭气象站。</p>
+<span id="more"></span>
+<h2 id="硬件资源">硬件资源</h2>
+<ol type="1">
+<li>战舰V332F103开发板</li>
+<li>ALIENTEK 2.8/3.5/4.3/7寸TFTLCD模块(通过FSMC驱动.FSMC_NE4接LCD片选/A10接RS)</li>
+<li>按键KEY0(PE4)/KEY1(PE3)/KEY_UP(PA0.也称之为WK_UP)</li>
+<li>ESP8266-12S WIFI模块1个</li>
+<li>DHT11模块1个</li>
+</ol>
+<h2 id="实现功能">实现功能</h2>
+<ol type="1">
+<li>微信小程序配网</li>
+<li>室内温湿度测量及显示</li>
+<li>室外天气数据获取及显示</li>
+<li>时间显示及网络校准</li>
+</ol>
+<h2 id="连接方式">连接方式</h2>
+<ul>
+<li>模块与带有无线网卡的电脑或其他wifi设备连接：采用wifi连接</li>
+<li>模块与开发板连接：TTL串口方式</li>
+</ul>
+<h3 id="atk-esp8266-wifi模块与精英板连接方式">ATK-ESP8266 WIFI模块与精英板连接方式</h3>
+<p>TXD&lt;------------&gt;PB11</p>
+<p>RXD&lt;------------&gt;PB10</p>
+<p>GND&lt;------------&gt;GND</p>
+<p>VCC&lt;------------&gt;3.3V\5V</p>
+<h3 id="dht11模块与精英板连接方式">DHT11模块与精英板连接方式</h3>
+<p>Data&lt;------------&gt;PE11</p>
+<h2 id="主要代码">主要代码</h2>
+<h3 id="外设初始化">外设初始化</h3>
+<p>初始化外设时，若DHT11工作不正常则显示屏无法正常显示。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">	LED_Init();		  			<span class="comment">//初始化与LED连接的硬件接口</span></span><br><span class="line">KEY_Init();					<span class="comment">//初始化按键</span></span><br><span class="line">LCD_Init();			   		<span class="comment">//初始化LCD   </span></span><br><span class="line">RTC_Init();</span><br><span class="line">	<span class="keyword">while</span>(DHT11_Init())	<span class="comment">//DHT11初始化	</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;DHT11 出错！\r\n&quot;</span>);</span><br><span class="line">		delay_ms(<span class="number">200</span>);</span><br><span class="line">&#125;</span><br><span class="line">W25QXX_Init();				<span class="comment">//初始化W25Q128</span></span><br><span class="line">tp_dev.init();				<span class="comment">//初始化触摸屏</span></span><br><span class="line">usart3_init(<span class="number">115200</span>);		<span class="comment">//初始化串口3 </span></span><br><span class="line">	my_mem_init(SRAMIN);		<span class="comment">//初始化内部内存池</span></span><br><span class="line">exfuns_init();				<span class="comment">//为fatfs相关变量申请内存  </span></span><br><span class="line">	f_mount(fs[<span class="number">0</span>],<span class="string">&quot;0:&quot;</span>,<span class="number">1</span>); 		<span class="comment">//挂载SD卡 </span></span><br><span class="line">	f_mount(fs[<span class="number">1</span>],<span class="string">&quot;1:&quot;</span>,<span class="number">1</span>); 		<span class="comment">//挂载FLASH.</span></span><br></pre></td></tr></table></figure>
+<h3 id="微信小程序配网">微信小程序配网</h3>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/RFhd54.png" alt="微信小程序配网" /><figcaption aria-hidden="true">微信小程序配网</figcaption>
+</figure>
+<p>源码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//一键配网设置</span></span><br><span class="line"><span class="function">u8 <span class="title">atk_8266_wifi_config</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> i;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">while</span>(atk_8266_send_cmd(<span class="string">&quot;AT&quot;</span>,<span class="string">&quot;OK&quot;</span>,<span class="number">20</span>))<span class="comment">//检查WIFI模块是否在线</span></span><br><span class="line">	&#123;</span><br><span class="line">		atk_8266_quit_trans();<span class="comment">//退出透传</span></span><br><span class="line">		atk_8266_send_cmd(<span class="string">&quot;AT+CIPMODE=0&quot;</span>,<span class="string">&quot;OK&quot;</span>,<span class="number">200</span>);  <span class="comment">//关闭透传模式	</span></span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;未检测到模块!!!&quot;</span>);</span><br><span class="line">		delay_ms(<span class="number">800</span>);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;尝试连接模块...&quot;</span>); </span><br><span class="line">	&#125; </span><br><span class="line">	u3_printf(<span class="string">&quot;AT+RESTORE&quot;</span>);		<span class="comment">//恢复出厂设置</span></span><br><span class="line">	delay_ms(<span class="number">1000</span>);      <span class="comment">//延时3S等待恢复成功</span></span><br><span class="line">	delay_ms(<span class="number">1000</span>);</span><br><span class="line">	delay_ms(<span class="number">1000</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;恢复出厂设置完成&quot;</span>); </span><br><span class="line">	atk_8266_send_cmd(<span class="string">&quot;AT+RST&quot;</span>,<span class="string">&quot;OK&quot;</span>,<span class="number">20</span>);		<span class="comment">//软重启</span></span><br><span class="line">	delay_ms(<span class="number">1000</span>);         <span class="comment">//延时3S等待重启成功</span></span><br><span class="line">	delay_ms(<span class="number">1000</span>);</span><br><span class="line">	delay_ms(<span class="number">1000</span>);</span><br><span class="line">	delay_ms(<span class="number">1000</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;软重启完成&quot;</span>);</span><br><span class="line">	<span class="keyword">while</span>(atk_8266_send_cmd(<span class="string">&quot;ATE0&quot;</span>,<span class="string">&quot;OK&quot;</span>,<span class="number">20</span>));<span class="comment">//关闭回显</span></span><br><span class="line">	atk_8266_send_cmd(<span class="string">&quot;AT+CWMODE=1&quot;</span>,<span class="string">&quot;OK&quot;</span>,<span class="number">50</span>);		<span class="comment">//设置WIFI STA模式</span></span><br><span class="line">	atk_8266_send_cmd(<span class="string">&quot;AT+CWAUTOCONN=1&quot;</span>,<span class="string">&quot;OK&quot;</span>,<span class="number">20</span>);   <span class="comment">//使能上电自动连接AP</span></span><br><span class="line">	delay_ms(<span class="number">300</span>);</span><br><span class="line">	atk_8266_send_cmd(<span class="string">&quot;AT+CWSTARTSMART=3&quot;</span>,<span class="string">&quot;OK&quot;</span>,<span class="number">20</span>);		<span class="comment">//支持ESP-Touch和Airkiss智能配网</span></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;智能配网已开启  等待30s\r\n&quot;</span>);</span><br><span class="line">	<span class="keyword">while</span>(i&lt;=<span class="number">30</span>)</span><br><span class="line">	&#123;</span><br><span class="line">	delay_ms(<span class="number">1000</span>);     <span class="comment">//延时30S等待配网成功</span></span><br><span class="line">	i++;</span><br><span class="line">	&#125;</span><br><span class="line"><span class="comment">//	while(atk_8266_check_cmd(&quot;smartconfig connected wifi&quot;));					//连接目标路由器,并且获得IP</span></span><br><span class="line"><span class="comment">//	delay_ms(300);</span></span><br><span class="line">	atk_8266_send_cmd(<span class="string">&quot;AT+CWSTOPSMART&quot;</span>,<span class="string">&quot;OK&quot;</span>,<span class="number">20</span>);		<span class="comment">//释放快连所占的内存</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="数据解析">数据解析</h3>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/RFh18s.png" alt="数据解析流程图" /><figcaption aria-hidden="true">数据解析流程图</figcaption>
+</figure>
+<h4 id="天气数据">天气数据</h4>
+<p>源码：（以当天天气数据为例，近3天天气数据类似)</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//解析当前天气</span></span><br><span class="line"><span class="function">u8 <span class="title">parse_now_weather</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	cJSON *root;</span><br><span class="line">	cJSON *pSub;</span><br><span class="line">	cJSON *arrayItem;</span><br><span class="line">	cJSON *pItem;</span><br><span class="line">	cJSON *pSubItem;</span><br><span class="line">	cJSON *pChildItem;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">char</span> *pr,*utf8str,*gbkstr;</span><br><span class="line">	u8 size = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">int</span> len;</span><br><span class="line">	u8 res;</span><br><span class="line">	u8 temperature;</span><br><span class="line">	</span><br><span class="line">	root = mymalloc(SRAMIN,<span class="keyword">sizeof</span>(cJSON));</span><br><span class="line">	pSub = mymalloc(SRAMIN,<span class="keyword">sizeof</span>(cJSON));</span><br><span class="line">	pItem = mymalloc(SRAMIN,<span class="keyword">sizeof</span>(cJSON));</span><br><span class="line">	pSubItem = mymalloc(SRAMIN,<span class="keyword">sizeof</span>(cJSON));</span><br><span class="line">	pChildItem = mymalloc(SRAMIN,<span class="keyword">sizeof</span>(cJSON));</span><br><span class="line">	arrayItem = mymalloc(SRAMIN,<span class="keyword">sizeof</span>(cJSON));</span><br><span class="line">	</span><br><span class="line">	pr = mymalloc(SRAMIN,<span class="number">1000</span>);</span><br><span class="line">	utf8str = mymalloc(SRAMIN,<span class="number">50</span>);</span><br><span class="line">	gbkstr = mymalloc(SRAMIN,<span class="number">50</span>);</span><br><span class="line">	</span><br><span class="line">	<span class="built_in">memset</span>(pr,<span class="number">0</span>,<span class="number">1000</span>);</span><br><span class="line">	<span class="built_in">memset</span>(gbkstr,<span class="number">0</span>,<span class="number">50</span>);</span><br><span class="line">	<span class="built_in">memset</span>(utf8str,<span class="number">0</span>,<span class="number">50</span>);</span><br><span class="line">	</span><br><span class="line">	file = mymalloc(SRAMIN,<span class="keyword">sizeof</span>(FIL));</span><br><span class="line">	res=f_open(file,(<span class="keyword">const</span> TCHAR*)APP_ASCII_5427,FA_READ);<span class="comment">//打开文件</span></span><br><span class="line">	<span class="keyword">if</span>(res==FR_OK)</span><br><span class="line">	&#123;</span><br><span class="line">		asc2_5427 = mymalloc(SRAMIN,file-&gt;fsize);</span><br><span class="line">		<span class="keyword">if</span>(asc2_5427 != <span class="literal">NULL</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			res = f_read(file,asc2_5427,file-&gt;fsize,&amp;br);</span><br><span class="line">		&#125;</span><br><span class="line">		f_close(file);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;jieshou-&gt;1dayjson = %s\r\n&quot;</span>,USART3_RX_BUF);</span><br><span class="line">	</span><br><span class="line">	root = cJSON_Parse((<span class="keyword">const</span> <span class="keyword">char</span>*)USART3_RX_BUF);</span><br><span class="line">	<span class="keyword">if</span>(root != <span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		pSub = cJSON_GetObjectItem(root,<span class="string">&quot;results&quot;</span>);</span><br><span class="line">		<span class="keyword">if</span>(pSub != <span class="literal">NULL</span>)</span><br><span class="line">		&#123;</span><br><span class="line"><span class="comment">//			size = cJSON_GetArraySize(pSub);</span></span><br><span class="line">			arrayItem = cJSON_GetArrayItem(pSub,<span class="number">0</span>);  </span><br><span class="line">			pr = cJSON_Print(arrayItem);   <span class="comment">//获取jsom数组</span></span><br><span class="line">			pItem = cJSON_Parse(pr);       <span class="comment">//对数组，进行升级。</span></span><br><span class="line">			<span class="keyword">if</span>(pItem != <span class="literal">NULL</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				pSubItem = cJSON_GetObjectItem(pItem,<span class="string">&quot;location&quot;</span>);</span><br><span class="line">				<span class="keyword">if</span>(pSubItem != <span class="literal">NULL</span>)</span><br><span class="line">				&#123;</span><br><span class="line">					pChildItem = cJSON_GetObjectItem(pSubItem,<span class="string">&quot;name&quot;</span>);</span><br><span class="line">					<span class="keyword">if</span>(pChildItem != <span class="literal">NULL</span>)</span><br><span class="line">					&#123;</span><br><span class="line">						utf8str = pChildItem-&gt;valuestring;</span><br><span class="line">						SwitchToGbk((<span class="keyword">const</span> u8*)utf8str,<span class="built_in">strlen</span>(utf8str),(u8 *)gbkstr,&amp;len);  <span class="comment">//获取城市名称转换为gbk文件</span></span><br><span class="line">						Show_Str(<span class="number">0</span>,<span class="number">0</span>,lcddev.width,lcddev.height,(u8 *)gbkstr,<span class="number">16</span>,<span class="number">0</span>);         <span class="comment">//显示城市名称。</span></span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">				</span><br><span class="line">				<span class="built_in">memset</span>(utf8str,<span class="number">0</span>,<span class="number">50</span>); <span class="comment">//解决阴华</span></span><br><span class="line">				<span class="built_in">memset</span>(gbkstr,<span class="number">0</span>,<span class="number">50</span>);</span><br><span class="line">				</span><br><span class="line">				pSubItem = cJSON_GetObjectItem(pItem,<span class="string">&quot;now&quot;</span>);</span><br><span class="line">				<span class="keyword">if</span>(pSubItem != <span class="literal">NULL</span>)</span><br><span class="line">				&#123;</span><br><span class="line">					pChildItem = cJSON_GetObjectItem(pSubItem,<span class="string">&quot;text&quot;</span>);  <span class="comment">//获取天气信息。多云</span></span><br><span class="line">					<span class="keyword">if</span>(pChildItem != <span class="literal">NULL</span>)</span><br><span class="line">					&#123;</span><br><span class="line">						utf8str = pChildItem-&gt;valuestring;</span><br><span class="line">						SwitchToGbk((<span class="keyword">const</span> u8*)utf8str,<span class="built_in">strlen</span>(utf8str),(u8 *)gbkstr,&amp;len);</span><br><span class="line">						Show_Str(<span class="number">220</span>,<span class="number">25</span>,lcddev.width,lcddev.height,(u8 *)gbkstr,<span class="number">16</span>,<span class="number">0</span>);  <span class="comment">//显示多云</span></span><br><span class="line">					&#125;</span><br><span class="line">					<span class="built_in">memset</span>(utf8str,<span class="number">0</span>,<span class="number">50</span>);</span><br><span class="line">					<span class="built_in">memset</span>(gbkstr,<span class="number">0</span>,<span class="number">50</span>);</span><br><span class="line">					</span><br><span class="line">					pChildItem = cJSON_GetObjectItem(pSubItem,<span class="string">&quot;code&quot;</span>);              <span class="comment">//获取气象代码</span></span><br><span class="line">					<span class="keyword">if</span>(pChildItem != <span class="literal">NULL</span>)</span><br><span class="line">					&#123;</span><br><span class="line">						gbkstr = pChildItem-&gt;valuestring;</span><br><span class="line">						show_weather_icon((u8 *)gbkstr,<span class="number">0</span>);                           <span class="comment">//根据气象代码，更新图片</span></span><br><span class="line">					&#125;</span><br><span class="line">					<span class="built_in">memset</span>(gbkstr,<span class="number">0</span>,<span class="number">50</span>);</span><br><span class="line">					</span><br><span class="line">					pChildItem = cJSON_GetObjectItem(pSubItem,<span class="string">&quot;temperature&quot;</span>);     <span class="comment">//获取温度信息</span></span><br><span class="line">					<span class="keyword">if</span>(pChildItem != <span class="literal">NULL</span>)</span><br><span class="line">					&#123;</span><br><span class="line">						gbkstr = pChildItem-&gt;valuestring;</span><br><span class="line">						temperature = str2int((u8 *)gbkstr);</span><br><span class="line">						gui_show_num(<span class="number">140</span>,<span class="number">22</span>,<span class="number">2</span>,RED,<span class="number">54</span>,temperature,<span class="number">0x80</span>);</span><br><span class="line">						<span class="built_in">printf</span>(<span class="string">&quot;wendu = %d\r\n&quot;</span>,temperature);</span><br><span class="line">					&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		</span><br><span class="line">			pSubItem = cJSON_GetObjectItem(pItem,<span class="string">&quot;last_update&quot;</span>);</span><br><span class="line">				<span class="keyword">if</span>(pSubItem != <span class="literal">NULL</span>)		</span><br><span class="line">				&#123;</span><br><span class="line">				    gbkstr =pSubItem-&gt;valuestring;</span><br><span class="line">					</span><br><span class="line">					 LCD_ShowString(<span class="number">0</span>,<span class="number">92</span>,<span class="number">200</span>,<span class="number">20</span>,<span class="number">12</span>,(u8*)gbkstr);</span><br><span class="line">					 <span class="built_in">printf</span>(<span class="string">&quot;1day_updata_time = %s\r\n&quot;</span>,(u8*)gbkstr);</span><br><span class="line">				&#125;</span><br><span class="line">			</span><br><span class="line">			</span><br><span class="line">			&#125;</span><br><span class="line">			cJSON_Delete(pItem);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	cJSON_Delete(root);</span><br><span class="line">	myfree(SRAMIN,root);</span><br><span class="line">	myfree(SRAMIN,pSub);</span><br><span class="line">	myfree(SRAMIN,pItem);</span><br><span class="line">	myfree(SRAMIN,pSubItem);</span><br><span class="line">	myfree(SRAMIN,pChildItem);</span><br><span class="line">	myfree(SRAMIN,arrayItem);</span><br><span class="line">	myfree(SRAMIN,pr);</span><br><span class="line">	myfree(SRAMIN,utf8str);</span><br><span class="line">	myfree(SRAMIN,gbkstr);</span><br><span class="line">	myfree(SRAMIN,file);</span><br><span class="line">	myfree(SRAMIN,asc2_5427);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="时间数据获取和校准">时间数据获取和校准</h4>
+<p>源码:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">u8 <span class="title">get_beijing_time</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	u8 *p;</span><br><span class="line">	u8 res;</span><br><span class="line">	</span><br><span class="line">	u8 *resp;</span><br><span class="line">	u8 *p_end;</span><br><span class="line">	</span><br><span class="line"><span class="comment">//	u8 ipbuf[16]; 	//IP缓存</span></span><br><span class="line">	p=mymalloc(SRAMIN,<span class="number">40</span>);							<span class="comment">//申请40字节内存</span></span><br><span class="line">	<span class="built_in">sprintf</span>((<span class="keyword">char</span>*)p,<span class="string">&quot;AT+CIPSTART=\&quot;TCP\&quot;,\&quot;%s\&quot;,%s&quot;</span>,TIME_SERVERIP,TIME_PORTNUM);    <span class="comment">//配置目标TCP服务器</span></span><br><span class="line">	res = atk_8266_send_cmd(p,<span class="string">&quot;OK&quot;</span>,<span class="number">200</span>);<span class="comment">//连接到目标TCP服务器</span></span><br><span class="line">	<span class="keyword">if</span>(res==<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		myfree(SRAMIN,p);</span><br><span class="line">		<span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	delay_ms(<span class="number">300</span>);</span><br><span class="line">	atk_8266_send_cmd(<span class="string">&quot;AT+CIPMODE=1&quot;</span>,<span class="string">&quot;OK&quot;</span>,<span class="number">100</span>);      <span class="comment">//传输模式为：透传	</span></span><br><span class="line"><span class="comment">//	atk_8266_get_wanip(ipbuf);//获取WAN IP</span></span><br><span class="line"></span><br><span class="line">	USART3_RX_STA=<span class="number">0</span>;</span><br><span class="line">	atk_8266_send_cmd(<span class="string">&quot;AT+CIPSEND&quot;</span>,<span class="string">&quot;OK&quot;</span>,<span class="number">100</span>);         <span class="comment">//开始透传</span></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;start trans...\r\n&quot;</span>);</span><br><span class="line">	u3_printf(<span class="string">&quot;GET http://api.k780.com/?app=life.time&amp;appkey=58173&amp;sign=4e67ab8533b30580e584c8b9f0a6cc50&amp;format=json\n\n&quot;</span>);	</span><br><span class="line">	delay_ms(<span class="number">20</span>);<span class="comment">//延时20ms返回的是指令发送成功的状态</span></span><br><span class="line"><span class="comment">//	atk_8266_at_response(1);</span></span><br><span class="line">	USART3_RX_STA=<span class="number">0</span>;	<span class="comment">//清零串口3数据</span></span><br><span class="line">	delay_ms(<span class="number">1000</span>);</span><br><span class="line"><span class="comment">//	atk_8266_at_response(0);</span></span><br><span class="line">	<span class="keyword">if</span>(USART3_RX_STA&amp;<span class="number">0X8000</span>)		<span class="comment">//此时再次接到一次数据，为时间的数据</span></span><br><span class="line">	&#123; </span><br><span class="line">		USART3_RX_BUF[USART3_RX_STA&amp;<span class="number">0X7FFF</span>]=<span class="number">0</span>;<span class="comment">//添加结束符</span></span><br><span class="line">	&#125; </span><br><span class="line"></span><br><span class="line">             resp=<span class="string">&quot;datetime_2&quot;</span>;</span><br><span class="line">             p_end = (u8*)<span class="built_in">strstr</span>((<span class="keyword">char</span>*)USART3_RX_BUF,(<span class="keyword">char</span>*)resp);</span><br><span class="line">						 p = p_end<span class="number">-11</span>; <span class="comment">//确定串口数据中时间的起止位，如&quot;datetime_1&quot;:&quot;2021-03-31 20:09:07&quot;,&quot;datetime_2&quot;:&quot;2021 中</span></span><br><span class="line">	</span><br><span class="line">					   nwt.hour = ((*p - <span class="number">0x30</span>)*<span class="number">10</span> + (*(p+<span class="number">1</span>) - <span class="number">0x30</span>));			      </span><br><span class="line">					   nwt.min = ((*(p+<span class="number">3</span>) - <span class="number">0x30</span>)*<span class="number">10</span> + (*(p+<span class="number">4</span>) - <span class="number">0x30</span>));</span><br><span class="line">					   nwt.sec = ((*(p+<span class="number">6</span>) - <span class="number">0x30</span>)*<span class="number">10</span> + (*(p+<span class="number">7</span>) - <span class="number">0x30</span>));</span><br><span class="line">					</span><br><span class="line">					   nwt.year = ((*(p<span class="number">-11</span>) - <span class="number">0x30</span>)*<span class="number">1000</span> + (*(p<span class="number">-10</span>) - <span class="number">0x30</span>)*<span class="number">100</span>+ (*(p<span class="number">-9</span>) - <span class="number">0x30</span>)*<span class="number">10</span>+ (*(p<span class="number">-8</span>) - <span class="number">0x30</span>)); </span><br><span class="line">					   nwt.month = ((*(p<span class="number">-6</span>) - <span class="number">0x30</span>)*<span class="number">10</span> + (*(p<span class="number">-5</span>) - <span class="number">0x30</span>));</span><br><span class="line">					   nwt.date = ((*(p<span class="number">-3</span>) - <span class="number">0x30</span>)*<span class="number">10</span> + (*(p<span class="number">-2</span>) - <span class="number">0x30</span>));</span><br><span class="line"><span class="comment">//使用指针方法获取时分秒年月日 				</span></span><br><span class="line">					   RTC_Set(nwt.year,nwt.month ,nwt.date ,nwt.hour ,nwt.min,nwt.sec); <span class="comment">//使用RTC函数设置时间  </span></span><br><span class="line">					</span><br><span class="line">					   <span class="built_in">printf</span>(<span class="string">&quot;nwt.year = %d\r\n&quot;</span>,nwt.year);</span><br><span class="line">					   <span class="built_in">printf</span>(<span class="string">&quot;nwt.month = %d\r\n&quot;</span>,nwt.month);</span><br><span class="line">					   <span class="built_in">printf</span>(<span class="string">&quot;nwt.date = %d\r\n&quot;</span>,nwt.date);</span><br><span class="line">					   <span class="built_in">printf</span>(<span class="string">&quot;nwt.hour = %d\r\n&quot;</span>,nwt.hour);</span><br><span class="line">					   <span class="built_in">printf</span>(<span class="string">&quot;nwt.min = %d\r\n&quot;</span>,nwt.min);</span><br><span class="line">					   <span class="built_in">printf</span>(<span class="string">&quot;nwt.sec = %d\r\n&quot;</span>,nwt.sec);</span><br><span class="line">	 <span class="comment">//		打印时分秒年月日数据</span></span><br><span class="line">     <span class="comment">//		parse_now_time();//	Cjson方法解析时间数据</span></span><br><span class="line">		</span><br><span class="line">	atk_8266_quit_trans();<span class="comment">//退出透传</span></span><br><span class="line">	atk_8266_send_cmd(<span class="string">&quot;AT+CIPCLOSE&quot;</span>,<span class="string">&quot;OK&quot;</span>,<span class="number">50</span>);         <span class="comment">//关闭连接</span></span><br><span class="line">	myfree(SRAMIN,p);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="实验现象">实验现象</h2>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/RSEhTJ.png" alt="微信配网实物图" /><figcaption aria-hidden="true">微信配网实物图</figcaption>
+</figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/RSE5k9.jpg" alt="综合调试串口" /><figcaption aria-hidden="true">综合调试串口</figcaption>
+</figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/VivianWestwood/image01/img/RSEIYR.jpg" alt="硬件实物图" /><figcaption aria-hidden="true">硬件实物图</figcaption>
+</figure>
+<h2 id="注意事项">注意事项</h2>
+<ol type="1">
+<li>4.3寸和7寸屏需要比较大电流,USB供电可能不足,请用外部电源适配器(推荐外接12V 1A电源)。</li>
+<li>本例程在LCD_Init函数里面(在ILI93xx.c),用到了printf,如果不初始化串口1,将导致液晶无法显示!!</li>
+<li>字库更新时,需自备标准SD卡一张(即大卡,也可以用TF卡+卡套)，并拷贝光盘:SD卡根目录文件里面的所有内容到SD卡根目录,然后将SD卡插到开发板。</li>
+<li>对于战舰V3开发板,P8需要用跳线短接:PB10(TX)与GBC_RX，PB11(RX)与GBC_TX。</li>
+<li>如果触摸屏不准，请按住KEY0不放，然后按复位，松开复位，进入触摸屏校准。此时松开KEY0，执行校准，即可对屏幕进行校准。</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\posts\56821\" rel="bookmark">基于STM32的空气质量检测仪</a></div>
+    </li>
+  </ul>
+
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/STM32/" rel="tag"># STM32</a>
+          </div>
+
+        
+
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Maskbugzero</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">134k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">2:02</span>
+  </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener external nofollow noreferrer" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener external nofollow noreferrer" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.5.0/pjax.min.js" integrity="sha256-3NkoLDrmHLTYj7csHIZSr0MHAFTXth7Ua/DDt4MRUAg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/quicklink@2.2.0/dist/quicklink.umd.js" integrity="sha256-4kQf9z5ntdQrzsBC3YSHnEz02Z9C1UeW/E9OgnvlzSY=" crossorigin="anonymous"></script>
+  <script class="next-config" data-name="quicklink" type="application/json">{"enable":true,"home":false,"archive":false,"delay":true,"timeout":3000,"priority":true,"url":"https://5772447.xyz/posts/50115/"}</script>
+  <script src="/js/third-party/quicklink.js"></script>
+
+</body>
+</html>
